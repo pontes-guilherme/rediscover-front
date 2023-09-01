@@ -10,17 +10,17 @@ import 'vuetify/styles'
 
 // Composables
 import { createVuetify } from 'vuetify'
+import {md3} from 'vuetify/blueprints'
+import {componentAliases} from "@/plugins/vuetify/components";
+import {defaults} from "@/plugins/vuetify/components";
+import {icons} from "@/plugins/vuetify/icons";
+import {theme} from "@/plugins/vuetify/themes";
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
-  theme: {
-    themes: {
-      light: {
-        colors: {
-          primary: '#1867C0',
-          secondary: '#5CBBF6',
-        },
-      },
-    },
-  },
+  blueprint: md3,
+  aliases: componentAliases,
+  defaults,
+  theme,
+  icons,
 })
