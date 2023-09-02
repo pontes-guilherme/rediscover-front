@@ -1,26 +1,26 @@
 // Composables
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
+import {useAuthStore} from "@/store/pages/auth/auth.store";
+
+import * as adminUnauthenticatedRoutes from '@/router/admin/unauthenticated'
 
 const routes = [
-  {
-    path: '/',
-    component: () => import('@/layouts/default/Default.vue'),
-    children: [
-      {
-        path: '',
-        name: 'Home',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
-      },
-    ],
-  },
+  ...adminUnauthenticatedRoutes.LoginRoutes
 ]
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+})
+
+router.beforeResolve(async to => {
+  const userStore = useAuthStore()
+
+  if (to.meta.requiresAuth && !userStore.isAuthenticated) {
+    return {name: 'Login'}
+  } else if (to.meta.requiresGuest && userStore.isAuthenticated) {
+    return {name: 'Home'}
+  }
 })
 
 export default router

@@ -12,7 +12,11 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
     "noEmit": true,
+    "importHelpers": true,
+    "sourceMap": true,
+    "types": ["vite/client"],
     "paths": {
       "@/*": [
        "src/*"
