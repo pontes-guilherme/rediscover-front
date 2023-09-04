@@ -6,7 +6,7 @@
           <header>
             <div class="logo-container py-16">
               <img
-                src="../../assets/logo.png"
+                src="../../../assets/logo.png"
                 alt=""
                 class="logo-container__logo"
               >
@@ -73,7 +73,7 @@
 
 <script lang="ts" setup>
 import {ref} from "vue";
-import {emailRules, passwordRules} from "@/views/login/formRules.rules";
+import {emailRules, passwordRules} from "@/views/admin/login/formRules.rules";
 
 const email = ref('');
 const password = ref('');

@@ -1,3 +1,3 @@
-import LoginRoutes from './login.route';
+import AdminLoginRoutes from './login.route';
 
-export {LoginRoutes};
+export {AdminLoginRoutes};

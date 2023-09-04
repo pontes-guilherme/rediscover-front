@@ -1,11 +1,13 @@
 // Composables
 import {createRouter, createWebHistory} from 'vue-router'
-import {useAuthStore} from "@/store/pages/auth/auth.store";
+import {useAuthStore} from "@/store/pages/admin/auth/auth.store";
 
 import * as adminUnauthenticatedRoutes from '@/router/admin/unauthenticated'
+import * as adminAuthenticatedRoutes from '@/router/admin/authenticated'
 
 const routes = [
-  ...adminUnauthenticatedRoutes.LoginRoutes
+  ...adminUnauthenticatedRoutes.AdminLoginRoutes,
+  ...adminAuthenticatedRoutes.AdminHomeRoutes,
 ]
 
 const router = createRouter({
@@ -14,12 +16,20 @@ const router = createRouter({
 })
 
 router.beforeResolve(async to => {
-  const userStore = useAuthStore()
+  const adminAuthStore = useAuthStore()
 
-  if (to.meta.requiresAuth && !userStore.isAuthenticated) {
-    return {name: 'Login'}
-  } else if (to.meta.requiresGuest && userStore.isAuthenticated) {
-    return {name: 'Home'}
+  console.log({
+    isAdminRoute:to.meta.isAdminRoute,
+    isAuthenticated: adminAuthStore.isAuthenticated,
+    requriesAuth: to.meta.requiresAuth,
+  })
+
+  if (to.meta.isAdminRoute) {
+    if (to.meta.requiresAuth && !adminAuthStore.isAuthenticated) {
+      return {name: 'AdminLogin'}
+    } else if (to.meta.requiresGuest && adminAuthStore.isAuthenticated) {
+      return {name: 'AdminHome'}
+    }
   }
 })
 

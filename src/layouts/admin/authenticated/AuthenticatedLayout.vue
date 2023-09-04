@@ -7,8 +7,8 @@
 </template>
 
 <script lang="ts" setup>
-import DefaultView from '@/layouts/default/components/View.vue'
-import LeftDrawer from "@/layouts/default/components/LeftDrawer.vue";
-import AppBar from "@/layouts/default/components/AppBar.vue";
+import DefaultView from '@/layouts/admin/authenticated/components/View.vue'
+import LeftDrawer from "@/layouts/admin/authenticated/components/LeftDrawer.vue";
+import AppBar from "@/layouts/admin/authenticated/components/AppBar.vue";
 
 </script>

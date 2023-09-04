@@ -40,7 +40,7 @@
 
 import {useAppDrawer} from "@/store/components/drawer.store";
 import {useProjectInfosStore} from "@/store/ProjectInfos.store";
-import {useAuthStore} from "@/store/pages/login/auth.store";
+import {useAuthStore} from "@/store/pages/admin/auth/auth.store";
 import {computed} from "vue";
 
 const drawerStore = useAppDrawer();
