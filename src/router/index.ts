@@ -4,8 +4,10 @@ import {useAuthStore} from "@/store/pages/admin/auth/auth.store";
 
 import adminUnauthenticatedRoutes from '@/router/admin/unauthenticated'
 import adminAuthenticatedRoutes from '@/router/admin/authenticated'
+import mainRoutes from '@/router/main'
 
 const routes = [
+  mainRoutes,
   adminUnauthenticatedRoutes,
   adminAuthenticatedRoutes,
 ]
@@ -26,9 +28,9 @@ router.beforeResolve(async to => {
 
   if (to.meta.isAdminRoute) {
     if (to.meta.requiresAuth && !adminAuthStore.isAuthenticated) {
-      return {name: 'AdminLogin'}
+      return {name: 'admin.login'}
     } else if (to.meta.requiresGuest && adminAuthStore.isAuthenticated) {
-      return {name: 'AdminHome'}
+      return {name: 'admin.home'}
     }
   }
 })

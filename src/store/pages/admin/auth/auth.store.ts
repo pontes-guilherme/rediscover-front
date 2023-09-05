@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 import {ref} from "vue";
 
 export const useAuthStore = defineStore("auth", () => {
-  const isAuthenticated = ref(true);
+  const isAuthenticated = ref(false);
   const user = ref(localStorage.getItem("user") || null);
 
   function setIsAuthenticated(authenticated: boolean) {

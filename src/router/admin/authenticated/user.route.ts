@@ -1,7 +1,7 @@
 export default [
     {
         path: 'users',
-        name: 'AdminUsers',
+        name: 'admin.users',
         component: () => import(/* webpackChunkName: "home" */ '@/views/admin/users/UsersList.vue'),
         meta: {
             requiresAuth: true,
