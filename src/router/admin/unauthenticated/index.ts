@@ -1,3 +1,10 @@
 import AdminLoginRoutes from './login.route';
 
-export {AdminLoginRoutes};
+export default {
+    path: '/admin/login',
+    component: () => import('@/layouts/admin/unauthenticated/UnauthenticatedLayout.vue'),
+    children: [
+        ...AdminLoginRoutes,
+    ],
+}
+

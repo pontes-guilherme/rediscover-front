@@ -2,12 +2,12 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import {useAuthStore} from "@/store/pages/admin/auth/auth.store";
 
-import * as adminUnauthenticatedRoutes from '@/router/admin/unauthenticated'
-import * as adminAuthenticatedRoutes from '@/router/admin/authenticated'
+import adminUnauthenticatedRoutes from '@/router/admin/unauthenticated'
+import adminAuthenticatedRoutes from '@/router/admin/authenticated'
 
 const routes = [
-  ...adminUnauthenticatedRoutes.AdminLoginRoutes,
-  ...adminAuthenticatedRoutes.AdminHomeRoutes,
+  adminUnauthenticatedRoutes,
+  adminAuthenticatedRoutes,
 ]
 
 const router = createRouter({

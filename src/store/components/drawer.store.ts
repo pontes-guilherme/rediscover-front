@@ -12,12 +12,18 @@ interface MenuItem {
 export const useAppDrawer = defineStore("drawer", () => {
   const expanded = ref(true);
   const menu = ref<MenuItem[]>([
-    // {
-    //   title: "Home",
-    //   value: "home",
-    //   icon: "mdi-view-dashboard",
-    //   route: "/"
-    // },
+    {
+      title: "Home",
+      value: "home",
+      icon: "mdi-view-dashboard",
+      route: "/admin"
+    },
+    {
+      title: "Users",
+      value: "users",
+      icon: "mdi-account",
+      route: "/admin/users"
+    },
   ]);
 
   function toggle() {

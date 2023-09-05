@@ -1,3 +1,11 @@
-import AdminHomeRoutes from "./home.route";
+import adminHomeRoutes from './home.route'
+import adminUserRoutes from './user.route'
 
-export {AdminHomeRoutes}
+export default {
+    path: '/admin',
+    component: () => import('@/layouts/admin/authenticated/AuthenticatedLayout.vue'),
+    children: [
+        ...adminHomeRoutes,
+        ...adminUserRoutes,
+    ],
+}
