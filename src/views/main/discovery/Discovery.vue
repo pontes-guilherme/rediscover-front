@@ -3,13 +3,9 @@
 
   <Content>
     <Featured class="mt-10"></Featured>
-  </Content>
 
-  <Content>
     <Explore class="mt-16"></Explore>
-  </Content>
 
-  <Content>
     <div class="d-flex justify-center align-center">
       <v-btn-primary
           class="mt-16"
