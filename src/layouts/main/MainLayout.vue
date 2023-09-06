@@ -1,31 +1,31 @@
 <template>
   <v-app id="inspire">
     <v-app-bar
-      class="px-3"
-      flat
-      density="compact"
+        class="px-3"
+        flat
+        density="compact"
     >
       <v-avatar
-        color="grey-darken-1"
-        class="hidden-md-and-up"
-        size="32"
+          color="grey-darken-1"
+          class="hidden-md-and-up"
+          size="32"
       ></v-avatar>
 
       <v-spacer></v-spacer>
 
       <v-tabs centered color="primary">
         <v-tab
-          v-for="link in links"
-          :key="link"
-          :text="link"
+            v-for="link in links"
+            :key="link"
+            :text="link"
         ></v-tab>
       </v-tabs>
       <v-spacer></v-spacer>
 
       <v-avatar
-        class="hidden-sm-and-down"
-        color="grey-darken-1"
-        size="32"
+          class="hidden-sm-and-down"
+          color="grey-darken-1"
+          size="32"
       ></v-avatar>
     </v-app-bar>
 
@@ -39,7 +39,26 @@
           </v-fade-transition>
         </router-view>
       </v-container>
+
+      <v-footer class="bg-tertiary text-center d-flex flex-column mt-10 pa-10">
+        <div>
+          <v-btn
+              v-for="icon in icons"
+              :key="icon"
+              class="mx-4"
+              :icon="icon"
+              variant="text"
+          ></v-btn>
+        </div>
+
+        <div class="pt-0">
+          <RouterLink to="/admin" class="text-white text-decoration-none">Access admin panel</RouterLink>
+        </div>
+
+        <v-divider></v-divider>
+      </v-footer>
     </v-main>
+
   </v-app>
 </template>
 
