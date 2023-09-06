@@ -1,11 +1,11 @@
 <template>
   <section class="section featured">
     <div class="title">
-      <h1 class="text-md-h4 text-sm-h6 font-weight-bold text-center">Featured</h1>
+      <h1 class="text-md-h4 text-sm-h6 font-weight-bold text-center">Explore</h1>
     </div>
 
     <div class="projects mt-10">
-      <template v-for="(project, i) in [1,2,3,4,5,6]" :key="i">
+      <template v-for="(project, i) in [1,2,3]" :key="i">
         <ProjectCard/>
       </template>
     </div>

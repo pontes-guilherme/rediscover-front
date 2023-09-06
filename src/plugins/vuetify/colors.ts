@@ -2,6 +2,7 @@ export const lightThemeColors = {
   colors: {
     primary: '#405390',
     secondary: '#907040',
+    tertiary: '#39394D',
 
     grey: '#E0E0E0',
     lightGrey: '#F5F5F5',
