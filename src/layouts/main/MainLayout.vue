@@ -5,12 +5,6 @@
         flat
         density="compact"
     >
-      <v-avatar
-          color="grey-darken-1"
-          class="hidden-md-and-up"
-          size="32"
-      ></v-avatar>
-
       <v-spacer></v-spacer>
 
       <v-tabs centered color="primary">
@@ -69,6 +63,7 @@ import {useRoute} from 'vue-router'
 const route = useRoute()
 
 const links = [
+  'Home',
   'Discover',
   'About',
   'Contact',
