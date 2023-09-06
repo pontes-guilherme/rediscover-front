@@ -1,5 +1,5 @@
 <template>
-  <v-card class="card mx-auto">
+  <v-card class="card mx-auto" variant="flat">
     <div class="card__image position-relative">
       <div class="tags position-absolute d-flex">
         <div class="chip">PHP</div>
@@ -22,7 +22,7 @@
   &__image {
     background-color: rgb(var(--v-theme-grey));
 
-    height: 200px;
+    height: 220px;
     border-radius: inherit;
 
     .tags {
