@@ -1,34 +1,31 @@
 <template>
   <v-app id="inspire">
     <v-app-bar
-        class="px-3"
-        flat
-        density="compact"
+      class="px-3"
+      flat
+      density="compact"
     >
       <v-avatar
-          color="grey-darken-1"
-          class="hidden-md-and-up"
-          size="32"
+        color="grey-darken-1"
+        class="hidden-md-and-up"
+        size="32"
       ></v-avatar>
 
       <v-spacer></v-spacer>
 
-      <v-tabs
-          centered
-          color="primary"
-      >
+      <v-tabs centered color="primary">
         <v-tab
-            v-for="link in links"
-            :key="link"
-            :text="link"
+          v-for="link in links"
+          :key="link"
+          :text="link"
         ></v-tab>
       </v-tabs>
       <v-spacer></v-spacer>
 
       <v-avatar
-          class="hidden-sm-and-down"
-          color="grey-darken-1"
-          size="32"
+        class="hidden-sm-and-down"
+        color="grey-darken-1"
+        size="32"
       ></v-avatar>
     </v-app-bar>
 

@@ -20,11 +20,11 @@ const router = createRouter({
 router.beforeResolve(async to => {
   const adminAuthStore = useAuthStore()
 
-  console.log({
-    isAdminRoute:to.meta.isAdminRoute,
-    isAuthenticated: adminAuthStore.isAuthenticated,
-    requriesAuth: to.meta.requiresAuth,
-  })
+  // console.log({
+  //   isAdminRoute:to.meta.isAdminRoute,
+  //   isAuthenticated: adminAuthStore.isAuthenticated,
+  //   requriesAuth: to.meta.requiresAuth,
+  // })
 
   if (to.meta.isAdminRoute) {
     if (to.meta.requiresAuth && !adminAuthStore.isAuthenticated) {

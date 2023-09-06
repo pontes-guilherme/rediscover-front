@@ -1,12 +1,12 @@
+<template>
+  <Banner></Banner>
+</template>
+
 <script setup lang="ts">
 
-</script>
+import Banner from "@/views/main/discovery/components/Banner.vue";
 
-<template>
-  <div>
-    <h1>Discovery</h1>
-  </div>
-</template>
+</script>
 
 <style scoped lang="scss">
 
