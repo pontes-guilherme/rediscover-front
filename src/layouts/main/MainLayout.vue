@@ -15,7 +15,7 @@
 
       <v-tabs
           centered
-          color="grey-darken-2"
+          color="primary"
       >
         <v-tab
             v-for="link in links"
@@ -33,7 +33,7 @@
     </v-app-bar>
 
     <v-main class="bg-grey-lighten-3">
-      <v-container fluid>
+      <v-container class="ma-0 pa-0" fluid>
         <router-view v-slot="{ Component }">
           <v-fade-transition hide-on-leave>
             <div :key="route.name?.toString()">
