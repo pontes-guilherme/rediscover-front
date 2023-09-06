@@ -3,7 +3,9 @@
     <div class="banner__content pa-4">
       <h1 class="text-black font-weight-bold text-sm-h5 text-md-h3">I did not find my project</h1>
 
-      <v-btn-primary class="mt-6">Add a project</v-btn-primary>
+      <RouterLink class="mt-6 text-decoration-none" to="/projects/add">
+        <v-btn-primary class="mt-6 d-flex justify-center align-center">Add a project</v-btn-primary>
+      </RouterLink>
     </div>
   </div>
 </template>
@@ -33,3 +35,5 @@
   }
 }
 </style>
+<script setup lang="ts">
+</script>
