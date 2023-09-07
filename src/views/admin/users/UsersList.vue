@@ -67,14 +67,6 @@
           </v-data-table-server>
         </v-row>
       </v-card>
-
-      <confirmation-dialog
-          :show="show"
-          :title="title"
-          :message="message"
-          :onConfirm="onConfirm"
-          :onCancel="onCancel"
-      />
     </v-responsive>
   </v-container>
 </template>
@@ -111,7 +103,7 @@ const {
 
 const {
   loadItems,
-  deleteItem
+  // deleteItem
 } = store;
 
 const headers: DataTableHeader[] = [
@@ -136,11 +128,11 @@ const headers: DataTableHeader[] = [
 ];
 
 watch(() => search.value, () => {
-  loadItems({
-    page: 1,
-    itemsPerPage: itemsPerPage.value,
-    sortBy: []
-  });
+  // loadItems({
+  //   page: 1,
+  //   itemsPerPage: itemsPerPage.value,
+  //   sortBy: []
+  // });
 });
 
 </script>
