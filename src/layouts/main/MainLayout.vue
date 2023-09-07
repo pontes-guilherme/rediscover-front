@@ -1,18 +1,23 @@
 <template>
   <v-app id="inspire">
     <v-app-bar class="px-3" flat>
-      <div class="logo ml-10">
-        <span class="text-primary font-weight-bold text-sm-h6">REDISCOVER</span>
-      </div>
+      <RouterLink
+        class="nav-item text-decoration-none text-primary"
+        to="/"
+      >
+        <div class="logo ml-10">
+          <span class="text-primary font-weight-bold text-sm-h6">REDISCOVER</span>
+        </div>
+      </RouterLink>
 
       <v-spacer></v-spacer>
 
       <div class="nav-items">
         <RouterLink
-            class="nav-item text-decoration-none text-primary"
-            :to="link.path"
-            v-for="link in links"
-            :key="link.path"
+          class="nav-item text-decoration-none text-primary"
+          :to="link.path"
+          v-for="link in links"
+          :key="link.path"
         >
           <v-btn variant="text">{{ link.title }}</v-btn>
         </RouterLink>
@@ -22,9 +27,9 @@
 
       <div class="avatar">
         <v-avatar
-            class="hidden-sm-and-down mr-10"
-            color="grey-darken-1"
-            size="32"
+          class="hidden-sm-and-down mr-10"
+          color="grey-darken-1"
+          size="32"
         ></v-avatar>
       </div>
     </v-app-bar>
@@ -43,8 +48,8 @@
       <v-footer class="bg-tertiary text-center d-flex flex-column mt-10 pa-10 flex-shrink-0">
         <div class="pt-0">
           <RouterLink
-              to="/admin"
-              class="text-white text-decoration-none"
+            to="/admin"
+            class="text-white text-decoration-none"
           >
             Access admin panel
           </RouterLink>
