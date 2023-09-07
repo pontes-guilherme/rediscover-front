@@ -1,26 +1,28 @@
 <template>
   <v-app id="inspire">
-    <v-app-bar
-        class="px-3"
-        flat
-        density="compact"
-    >
+    <v-app-bar class="px-3" flat>
+      <div class="logo ml-10">
+        <span class="text-primary font-weight-bold text-sm-h6">REDISCOVER</span>
+      </div>
+
       <v-spacer></v-spacer>
 
-      <v-tabs centered color="primary">
-        <v-tab
-            v-for="link in links"
-            :key="link"
-            :text="link"
-        ></v-tab>
-      </v-tabs>
+      <div class="nav-items">
+        <RouterLink class="nav-item text-decoration-none text-primary" :to="link.path" v-for="link in links"
+                    :key="link.path">
+          <v-btn text>{{ link.title }}</v-btn>
+        </RouterLink>
+      </div>
+
       <v-spacer></v-spacer>
 
-      <v-avatar
-          class="hidden-sm-and-down"
-          color="grey-darken-1"
-          size="32"
-      ></v-avatar>
+      <div class="avatar">
+        <v-avatar
+            class="hidden-sm-and-down mr-10"
+            color="grey-darken-1"
+            size="32"
+        ></v-avatar>
+      </div>
     </v-app-bar>
 
     <v-main class="bg-grey-lighten-3">
@@ -63,9 +65,47 @@ import {useRoute} from 'vue-router'
 const route = useRoute()
 
 const links = [
-  'Home',
-  'Discover',
-  'About',
-  'Contact',
+  {
+    title: 'Home',
+    path: '/',
+  },
+  {
+    title: 'Discover',
+    path: '/discover',
+  },
+  {
+    title: 'About',
+    path: '/about',
+  },
+  {
+    title: 'Contact',
+    path: '/contact',
+  },
 ]
 </script>
+
+<style scoped lang="scss">
+.avatar, .logo {
+  width: 15%;
+}
+
+.avatar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nav-items {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .nav-item {
+    margin: 0 10px;
+    min-width: 120px;
+
+    button {
+      width: 100%;
+    }
+  }
+}
+</style>
