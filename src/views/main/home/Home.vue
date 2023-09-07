@@ -7,11 +7,13 @@
     <Explore class="mt-16"></Explore>
 
     <div class="d-flex justify-center align-center">
-      <v-btn-primary
-          class="mt-16"
-      >
-        Discover More
-      </v-btn-primary>
+      <RouterLink to="/discover">
+        <v-btn-primary
+            class="mt-16"
+        >
+          Discover More
+        </v-btn-primary>
+      </RouterLink>
     </div>
   </Content>
 </template>
