@@ -1,15 +1,12 @@
+import discoveryRoutes from "@/router/main/discovery.route";
+import projectRoutes from "@/router/main/project.route";
+
 export default {
     path: '/',
     component: () => import('@/layouts/main/MainLayout.vue'),
     children: [
-        {
-            path: '',
-            name: 'main.home',
-            component: () => import(/* webpackChunkName: "home" */ '@/views/main/discovery/Discovery.vue'),
-            meta: {
-                isAdminRoute: false,
-            }
-        },
+        ...discoveryRoutes,
+        ...projectRoutes,
     ],
 }
 
