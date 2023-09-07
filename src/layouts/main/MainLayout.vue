@@ -14,7 +14,7 @@
             v-for="link in links"
             :key="link.path"
         >
-          <v-btn text>{{ link.title }}</v-btn>
+          <v-btn variant="text">{{ link.title }}</v-btn>
         </RouterLink>
       </div>
 
@@ -41,16 +41,6 @@
       </v-container>
 
       <v-footer class="bg-tertiary text-center d-flex flex-column mt-10 pa-10 flex-shrink-0">
-        <div>
-          <v-btn
-              v-for="icon in icons"
-              :key="icon"
-              class="mx-4"
-              :icon="icon"
-              variant="text"
-          ></v-btn>
-        </div>
-
         <div class="pt-0">
           <RouterLink
               to="/admin"
