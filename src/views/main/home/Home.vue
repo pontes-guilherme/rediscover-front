@@ -17,10 +17,10 @@
 </template>
 
 <script setup lang="ts">
-import Banner from "@/views/main/discovery/components/Banner.vue";
+import Banner from "@/views/main/home/components/Banner.vue";
 import Content from "@/components/main/Content.vue";
-import Featured from "@/views/main/discovery/components/Featured.vue";
-import Explore from "@/views/main/discovery/components/Explore.vue";
+import Featured from "@/views/main/home/components/Featured.vue";
+import Explore from "@/views/main/home/components/Explore.vue";
 </script>
 
 <style scoped lang="scss">
