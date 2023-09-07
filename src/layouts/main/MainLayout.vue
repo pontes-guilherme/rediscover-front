@@ -8,8 +8,12 @@
       <v-spacer></v-spacer>
 
       <div class="nav-items">
-        <RouterLink class="nav-item text-decoration-none text-primary" :to="link.path" v-for="link in links"
-                    :key="link.path">
+        <RouterLink
+            class="nav-item text-decoration-none text-primary"
+            :to="link.path"
+            v-for="link in links"
+            :key="link.path"
+        >
           <v-btn text>{{ link.title }}</v-btn>
         </RouterLink>
       </div>
@@ -25,18 +29,18 @@
       </div>
     </v-app-bar>
 
-    <v-main class="bg-grey-lighten-3">
-      <v-container class="ma-0 pa-0" fluid>
+    <v-main class="bg-grey-lighten-3 d-flex flex-column">
+      <v-container class="ma-0 pa-0 h-100" fluid>
         <router-view v-slot="{ Component }">
           <v-fade-transition hide-on-leave>
-            <div :key="route.name?.toString()">
+            <div class="h-100" :key="route.name?.toString()">
               <component :is="Component"/>
             </div>
           </v-fade-transition>
         </router-view>
       </v-container>
 
-      <v-footer class="bg-tertiary text-center d-flex flex-column mt-10 pa-10">
+      <v-footer class="bg-tertiary text-center d-flex flex-column mt-10 pa-10 flex-shrink-0">
         <div>
           <v-btn
               v-for="icon in icons"
@@ -48,7 +52,12 @@
         </div>
 
         <div class="pt-0">
-          <RouterLink to="/admin" class="text-white text-decoration-none">Access admin panel</RouterLink>
+          <RouterLink
+              to="/admin"
+              class="text-white text-decoration-none"
+          >
+            Access admin panel
+          </RouterLink>
         </div>
 
         <v-divider></v-divider>
