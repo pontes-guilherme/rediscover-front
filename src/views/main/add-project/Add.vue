@@ -10,16 +10,18 @@
         <v-row>
           <v-col cols="12">
             <v-text-field
-                class="w-100"
-                v-model="projectUrl"
-                label="URL do repositório"
-                required
+              class="w-100"
+              v-model="projectUrl"
+              label="URL do repositório"
+              required
             />
           </v-col>
         </v-row>
 
         <div class="d-flex justify-center align-center">
-          <v-btn-primary class="btn-add mt-6">Add</v-btn-primary>
+          <RouterLink to="/projects/add/details">
+            <v-btn-primary class="btn-add mt-6">Add</v-btn-primary>
+          </RouterLink>
         </div>
       </div>
     </div>
