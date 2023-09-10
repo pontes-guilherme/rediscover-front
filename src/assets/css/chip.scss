@@ -1,0 +1,26 @@
+.chip {
+  box-sizing: border-box;
+
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: 0.3s ease filter;
+
+  &:not(.selected):hover {
+    filter: none;
+  }
+
+  &:not(.selected) {
+    filter: grayscale(100%);
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    margin-bottom: 10px;
+  }
+}

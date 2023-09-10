@@ -15,9 +15,4 @@ export const lightThemeColors = {
 
     background: '#F5F5F5',
   },
-  variations: {
-    colors: ['primary', 'secondary'],
-    lighten: 4,
-    darken: 2,
-  },
 }
