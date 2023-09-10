@@ -96,6 +96,56 @@
                 </div>
               </div>
             </div>
+
+            <div class="reason mt-10">
+              <div class="title text-body-1">
+                Why did you abandoned/inactivated the project?
+              </div>
+
+              <v-textarea class="w-100 mt-2"></v-textarea>
+            </div>
+
+            <div class="reason mt-10">
+              <div class="title text-body-1">
+                What do you wish for this project's future?
+              </div>
+
+              <v-textarea class="w-100 mt-2"></v-textarea>
+            </div>
+          </div>
+
+          <div class="tags mt-10">
+            <div class="title text-body-1">
+              Select the technologies involved in this project
+            </div>
+
+            <div class="tech-chips mt-2 d-flex">
+              <div
+                :class="`chip tech-chip font-weight-black py-2 px-4 rounded-pill ${isTechSelected(tech) ? 'selected' : ''}`"
+                @click="toggleTechnology(tech)"
+                v-for="tech in technologies"
+                :key="tech"
+              >
+                {{ tech }}
+              </div>
+            </div>
+          </div>
+
+          <div class="tags mt-10">
+            <div class="title text-body-1">
+              Select the tags that fit this project
+            </div>
+
+            <div class="tag-chips mt-2 d-flex">
+              <div
+                :class="`chip tag-chip font-weight-black py-2 px-4 rounded-pill ${isTagSelected(tag) ? 'selected' : ''}`"
+                @click="toggleTag(tag)"
+                v-for="tag in tags"
+                :key="tag"
+              >
+                {{ tag }}
+              </div>
+            </div>
           </div>
 
           <div class="d-flex justify-center align-center">
@@ -111,10 +161,70 @@
 import {ref} from "vue";
 
 const selectedStatus = ref('');
+const selectedTechnologies = ref<string[]>([]);
+const selectedTags = ref<string[]>([]);
 
 const changeStatus = (status: string) => {
   selectedStatus.value = status;
 }
+
+const toggleTechnology = (technology: string) => {
+  if (selectedTechnologies.value.includes(technology)) {
+    selectedTechnologies.value = selectedTechnologies.value.filter(tech => tech != technology)
+  } else {
+    selectedTechnologies.value.push(technology)
+  }
+}
+
+const toggleTag = (tag: string) => {
+  if (selectedTags.value.includes(tag)) {
+    selectedTags.value = selectedTags.value.filter(tech => tech != tag)
+  } else {
+    selectedTags.value.push(tag)
+  }
+}
+
+const isTechSelected = (technology: string) => {
+  return selectedTechnologies.value.includes(technology)
+}
+
+const isTagSelected = (tag: string) => {
+  return selectedTags.value.includes(tag)
+}
+
+const technologies = [
+  'Java',
+  'Spring Boot',
+  'PHP',
+  'Laravel',
+  'Symphony',
+  'Zend',
+  'Python',
+  'Flask',
+  'FastAPI',
+  'Javascript',
+  'Node',
+  'Express',
+  'NestJS',
+  'ReactJS',
+  'React Native',
+  'VueJS',
+  'Angular',
+  'Svelte',
+  'PostgreSQL',
+  'Mysql',
+  'MongoDB',
+];
+
+const tags = [
+  'Back-End',
+  'Front-End',
+  'Full Stack',
+  'Compilers',
+  'Tools',
+  'Security',
+  'Learn in Public',
+];
 </script>
 
 <style scoped lang="scss">
@@ -176,36 +286,37 @@ const changeStatus = (status: string) => {
   }
 }
 
+.chip {
+  box-sizing: border-box;
+
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: 0.3s ease filter;
+
+  &:not(.selected):hover {
+    filter: none;
+  }
+
+  &:not(.selected) {
+    filter: grayscale(100%);
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    margin-bottom: 10px;
+  }
+}
+
 .status-options {
   flex-wrap: wrap;
 
   .chip {
-    color: black !important;
-    box-sizing: border-box;
-
-    cursor: pointer;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    transition: 0.3s ease filter;
-
-    &:not(.selected):hover {
-      filter: none;
-    }
-
-    &:not(.selected) {
-      filter: grayscale(100%);
-    }
-
-    @media (max-width: 768px) {
-      width: 100%;
-      margin-right: 0 !important;
-      margin-left: 0 !important;
-      margin-bottom: 10px;
-    }
-
     &--abandoned {
       background-color: rgba(255, 0, 0, 0.4);
     }
@@ -220,4 +331,24 @@ const changeStatus = (status: string) => {
   }
 }
 
+.tech-chips, .tag-chips {
+  flex-wrap: wrap;
+
+  max-height: 300px;
+  overflow-y: auto;
+
+  padding-right: 10px;
+
+  .tech-chip, .tag-chip {
+    background-color: rgb(var(--v-theme-grey));
+    margin-bottom: 10px;
+
+    margin-right: 10px;
+
+    &.selected {
+      background-color: rgb(var(--v-theme-primary-lighten-3));
+      color: white;
+    }
+  }
+}
 </style>
