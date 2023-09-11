@@ -1,5 +1,5 @@
 <template>
-  <v-card class="card mx-auto" variant="flat">
+  <v-card class="card mx-auto" variant="flat" @click="goToProject">
     <div class="card__image position-relative">
       <div class="tags position-absolute d-flex">
         <div class="chip">PHP</div>
@@ -18,11 +18,20 @@
 </template>
 
 <script setup lang="ts">
+import {useRouter} from "vue-router";
 
+const router = useRouter()
+
+const goToProject = () => {
+  router.push('/projects/1')
+}
 </script>
 
 <style scoped lang="scss">
 .card {
+  cursor: pointer;
+  user-select: none;
+
   &__image {
     background-color: rgb(var(--v-theme-grey));
 
