@@ -10,7 +10,7 @@
 import Comment from "@/components/main/Comment.vue";
 import {ref} from "vue";
 
-const comments = ref([
+const comments = ref<string[]>([
   'Lorem ipsum dolor sit amet consectetur adipiscing eli0t Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet',
   'Lorem ipsum dolor sit amet consectetur adipiscing eli0t Ut et massa mi. Aliquam in hendrerit urna. ',
   'Lorem ipsum dolor sit amet consectetur adipiscing eli0t Ut et massa mi. Aliquam in hendrerit urna. ',

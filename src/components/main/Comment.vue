@@ -28,9 +28,12 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  content: string
-}>()
+defineProps({
+  content: {
+    type: String,
+    required: true,
+  },
+})
 </script>
 
 <style scoped lang="scss">
