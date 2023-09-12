@@ -21,12 +21,12 @@ export const defaults = {
   },
   VBtnPrimary: {
     color: 'primary',
-    rounded: 'lg',
+    rounded: 'xl',
     height: "40px",
   },
   VBtnSecondary: {
     color: 'secondary',
-    rounded: 'lg',
+    rounded: 'xl',
     height: "40px",
   },
   VBtnDatatableAction: {
