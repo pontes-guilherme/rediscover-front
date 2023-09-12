@@ -52,6 +52,38 @@
         <ProjectCard v-for="project in [1,2,3,4,]" :key="project"/>
       </div>
     </div>
+
+
+    <div class="additional-actions mt-16 d-flex flex-column align-center">
+      <div class="w-50">
+        <v-divider></v-divider>
+      </div>
+      <div class="buttons d-flex justify-space-between mt-10">
+        <v-btn
+          color="primary"
+          class="mr-5"
+        >
+          <v-icon>mdi-check</v-icon>
+          <span class="ml-2">I am the maintainer</span>
+        </v-btn>
+
+        <v-btn
+          color="primary"
+          class="mr-5"
+        >
+          <v-icon>mdi-star</v-icon>
+          <span class="ml-2">I want to collaborate</span>
+        </v-btn>
+
+        <v-btn
+          color="primary"
+          class="mr-5"
+        >
+          <v-icon>mdi-share-variant</v-icon>
+          <span class="ml-2">I want to share</span>
+        </v-btn>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -126,6 +158,35 @@ section {
 
       :deep(.v-card) {
         max-width: 100vw;
+      }
+    }
+  }
+}
+
+.additional-actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  .buttons {
+    .v-btn {
+      width: 250px;
+    }
+
+    @media (max-width: 1200px) {
+      display: block !important;
+
+      .v-btn {
+        display: block;
+        margin-bottom: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+
+      .v-btn {
+        width: 100%;
       }
     }
   }
