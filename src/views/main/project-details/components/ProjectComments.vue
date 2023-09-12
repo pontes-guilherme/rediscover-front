@@ -3,6 +3,10 @@
     <div class="card__content">
       <Comment :content="comment" v-for="(comment, i) in comments" :key="i"/>
     </div>
+
+    <div class="button mt-5 d-flex align-center justify-center">
+      <v-btn class="btn-add-comment" color="primary">Add comment</v-btn>
+    </div>
   </v-card>
 </template>
 
@@ -23,6 +27,14 @@ const comments = ref<string[]>([
     max-height: 500px;
     margin: 0 auto;
     overflow-y: auto;
+  }
+}
+
+.btn-add-comment {
+  width: auto;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
   }
 }
 </style>
