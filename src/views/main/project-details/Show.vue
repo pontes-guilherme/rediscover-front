@@ -84,6 +84,8 @@
         </v-btn>
       </div>
     </div>
+
+    <v-btn class="floating-btn" color="black" icon="mdi-github" size="72" rounded="xxl"></v-btn>
   </div>
 </template>
 
@@ -189,6 +191,19 @@ section {
         width: 100%;
       }
     }
+  }
+}
+
+.floating-btn {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 1;
+
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+  @media (max-width: 768px) {
+    right: 10px;
   }
 }
 </style>
