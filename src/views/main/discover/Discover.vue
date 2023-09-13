@@ -32,42 +32,18 @@
       </div>
     </div>
 
-    <v-dialog
-      class="modal filter-modal"
-      v-model="modalActive"
-      :fullscreen="smAndDown"
-      :scrim="false"
-    >
-      <v-toolbar
-        dark
-        color="primary"
-      >
-        <v-spacer></v-spacer>
-
-        <v-btn
-          icon
-          dark
-          @click="modalActive = false"
-        >
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-toolbar>
-
-      <v-card>
-        <FilterModal @close="modalActive = false"/>
-      </v-card>
-    </v-dialog>
+    <ModalWithToolbar v-model:active="modalActive">
+      <FilterModal @close="modalActive = false"/>
+    </ModalWithToolbar>
   </Content>
 </template>
 
 <script setup lang="ts">
 import {ref} from "vue";
-import {useDisplay} from "vuetify";
 import Content from "@/components/main/Content.vue";
 import ProjectCard from "@/components/main/ProjectCard.vue";
 import FilterModal from "@/views/main/discover/components/FilterModal.vue";
-
-const {smAndDown} = useDisplay()
+import ModalWithToolbar from "@/components/main/ModalWithToolbar.vue";
 
 const search = ref('')
 const modalActive = ref(false)
@@ -124,18 +100,6 @@ const activateModal = () => {
     :deep(.v-card) {
       max-width: 95%;
     }
-  }
-}
-
-.modal {
-  max-width: 60%;
-
-  @media (max-width: 1200px) {
-    max-width: 85%;
-  }
-
-  @media (max-width: 960px) {
-    max-width: 100%;
   }
 }
 </style>

@@ -57,37 +57,16 @@
     </div>
   </div>
 
-  <v-dialog
-      class="modal report-modal"
-      v-model="reportModalActive"
-      :fullscreen="smAndDown"
-      :scrim="false"
-  >
-    <v-toolbar
-        dark
-        color="primary"
-    >
-      <v-spacer></v-spacer>
-
-      <v-btn
-          icon
-          dark
-          @click="reportModalActive = false"
-      >
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
-    </v-toolbar>
-
-    <v-card>
-      <ReportCommentModal @close="reportModalActive = false"/>
-    </v-card>
-  </v-dialog>
+  <ModalWithToolbar v-model:active="reportModalActive">
+    <ReportCommentModal @close="reportModalActive = false"/>
+  </ModalWithToolbar>
 </template>
 
 <script setup lang="ts">
 import {ref} from "vue";
 import {useDisplay} from "vuetify";
 import ReportCommentModal from "@/views/main/project-details/components/ReportCommentModal.vue";
+import ModalWithToolbar from "@/components/main/ModalWithToolbar.vue";
 
 defineProps({
   content: {
@@ -147,19 +126,6 @@ const activateModal = () => {
         background-color: #f5f5f5;
       }
     }
-  }
-}
-
-
-.modal {
-  max-width: 60%;
-
-  @media (max-width: 1200px) {
-    max-width: 85%;
-  }
-
-  @media (max-width: 960px) {
-    max-width: 100%;
   }
 }
 </style>
