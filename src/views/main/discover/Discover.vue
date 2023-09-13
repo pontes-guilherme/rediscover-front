@@ -4,18 +4,18 @@
       <div class="page-header">
         <div class="search-bar mx-3">
           <v-text-field
-              v-model="search"
-              label="Search"
-              variant="solo"
+            v-model="search"
+            label="Search"
+            variant="solo"
           />
         </div>
         <div class="search-info d-flex justify-space-between align-center">
           <div class="results-count px-4">
-            <span class="text-body-2">{{projects.length}} results found</span>
+            <span class="text-body-2">{{ projects.length }} results found</span>
           </div>
 
           <div class="actions">
-            <v-btn variant="plain">
+            <v-btn variant="plain" @click="activateModal">
               <v-icon>mdi-filter</v-icon>
               Filter
             </v-btn>
@@ -31,6 +31,10 @@
         </div>
       </div>
     </div>
+
+    <ModalWithToolbar v-model:active="modalActive">
+      <FilterModal @close="modalActive = false"/>
+    </ModalWithToolbar>
   </Content>
 </template>
 
@@ -38,10 +42,17 @@
 import {ref} from "vue";
 import Content from "@/components/main/Content.vue";
 import ProjectCard from "@/components/main/ProjectCard.vue";
+import FilterModal from "@/views/main/discover/components/FilterModal.vue";
+import ModalWithToolbar from "@/components/main/ModalWithToolbar.vue";
 
 const search = ref('')
+const modalActive = ref(false)
 
-const projects = ref([1,2,3,4,5,6])
+const projects = ref([1, 2, 3, 4, 5, 6])
+
+const activateModal = () => {
+  modalActive.value = true
+}
 </script>
 
 <style scoped lang="scss">
