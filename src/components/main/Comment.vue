@@ -4,8 +4,8 @@
       <div class="profile d-flex align-center">
         <div class="profile__picture">
           <v-avatar
-            color="grey-darken-1"
-            size="40"
+              color="grey-darken-1"
+              size="40"
           ></v-avatar>
         </div>
         <div class="profile__username font-weight-medium ml-2">User123</div>
@@ -14,11 +14,11 @@
         <v-menu location="bottom">
           <template v-slot:activator="{ props }">
             <v-btn
-              icon
-              color="secondary"
-              size="30"
-              variant="text"
-              v-bind="props"
+                icon
+                color="secondary"
+                size="30"
+                variant="text"
+                v-bind="props"
             >
               <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
@@ -28,8 +28,8 @@
             <v-list-item>
               <v-list-item-title class="d-flex align-center">
                 <v-btn
-                  color="primary"
-                  variant="text"
+                    color="primary"
+                    variant="text"
                 >
                   <v-icon>mdi-close</v-icon>
                   <span class="ml-2">Delete</span>
@@ -39,8 +39,9 @@
             <v-list-item>
               <v-list-item-title class="d-flex align-center">
                 <v-btn
-                  color="primary"
-                  variant="text"
+                    color="primary"
+                    variant="text"
+                    @click="activateModal"
                 >
                   <v-icon>mdi-alert-octagon</v-icon>
                   <span class="ml-2">Report</span>
@@ -55,15 +56,53 @@
       {{ content }}
     </div>
   </div>
+
+  <v-dialog
+      class="modal report-modal"
+      v-model="reportModalActive"
+      :fullscreen="smAndDown"
+      :scrim="false"
+  >
+    <v-toolbar
+        dark
+        color="primary"
+    >
+      <v-spacer></v-spacer>
+
+      <v-btn
+          icon
+          dark
+          @click="reportModalActive = false"
+      >
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-toolbar>
+
+    <v-card>
+      <ReportCommentModal @close="reportModalActive = false"/>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
+import {ref} from "vue";
+import {useDisplay} from "vuetify";
+import ReportCommentModal from "@/views/main/project-details/components/ReportCommentModal.vue";
+
 defineProps({
   content: {
     type: String,
     required: true,
   },
 })
+
+const {smAndDown} = useDisplay()
+
+const reportModalActive = ref(false)
+
+const activateModal = () => {
+  reportModalActive.value = true
+}
 </script>
 
 <style scoped lang="scss">
@@ -108,6 +147,19 @@ defineProps({
         background-color: #f5f5f5;
       }
     }
+  }
+}
+
+
+.modal {
+  max-width: 60%;
+
+  @media (max-width: 1200px) {
+    max-width: 85%;
+  }
+
+  @media (max-width: 960px) {
+    max-width: 100%;
   }
 }
 </style>
