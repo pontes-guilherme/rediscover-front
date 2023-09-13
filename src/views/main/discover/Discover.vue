@@ -4,18 +4,18 @@
       <div class="page-header">
         <div class="search-bar mx-3">
           <v-text-field
-              v-model="search"
-              label="Search"
-              variant="solo"
+            v-model="search"
+            label="Search"
+            variant="solo"
           />
         </div>
         <div class="search-info d-flex justify-space-between align-center">
           <div class="results-count px-4">
-            <span class="text-body-2">{{projects.length}} results found</span>
+            <span class="text-body-2">{{ projects.length }} results found</span>
           </div>
 
           <div class="actions">
-            <v-btn variant="plain">
+            <v-btn variant="plain" @click="activateModal">
               <v-icon>mdi-filter</v-icon>
               Filter
             </v-btn>
@@ -31,17 +31,52 @@
         </div>
       </div>
     </div>
+
+    <v-dialog
+      class="modal filter-modal"
+      v-model="modalActive"
+      :fullscreen="smAndDown"
+      :scrim="false"
+    >
+      <v-toolbar
+        dark
+        color="primary"
+      >
+        <v-spacer></v-spacer>
+
+        <v-btn
+          icon
+          dark
+          @click="modalActive = false"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </v-toolbar>
+
+      <v-card>
+        <FilterModal @close="modalActive = false"/>
+      </v-card>
+    </v-dialog>
   </Content>
 </template>
 
 <script setup lang="ts">
 import {ref} from "vue";
+import {useDisplay} from "vuetify";
 import Content from "@/components/main/Content.vue";
 import ProjectCard from "@/components/main/ProjectCard.vue";
+import FilterModal from "@/views/main/discover/components/FilterModal.vue";
+
+const {smAndDown} = useDisplay()
 
 const search = ref('')
+const modalActive = ref(false)
 
-const projects = ref([1,2,3,4,5,6])
+const projects = ref([1, 2, 3, 4, 5, 6])
+
+const activateModal = () => {
+  modalActive.value = true
+}
 </script>
 
 <style scoped lang="scss">
@@ -89,6 +124,18 @@ const projects = ref([1,2,3,4,5,6])
     :deep(.v-card) {
       max-width: 95%;
     }
+  }
+}
+
+.modal {
+  max-width: 60%;
+
+  @media (max-width: 1200px) {
+    max-width: 85%;
+  }
+
+  @media (max-width: 960px) {
+    max-width: 100%;
   }
 }
 </style>
