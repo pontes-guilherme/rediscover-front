@@ -30,6 +30,7 @@
                 <v-btn
                     color="primary"
                     variant="text"
+                    @click="deleteComment"
                 >
                   <v-icon>mdi-close</v-icon>
                   <span class="ml-2">Delete</span>
@@ -64,9 +65,9 @@
 
 <script setup lang="ts">
 import {ref} from "vue";
-import {useDisplay} from "vuetify";
 import ReportCommentModal from "@/views/main/project-details/components/ReportCommentModal.vue";
 import ModalWithToolbar from "@/components/main/ModalWithToolbar.vue";
+import {useConfirm} from "@/store/components/confirm.store";
 
 defineProps({
   content: {
@@ -75,12 +76,21 @@ defineProps({
   },
 })
 
-const {smAndDown} = useDisplay()
+const confirm = useConfirm();
 
 const reportModalActive = ref(false)
 
 const activateModal = () => {
   reportModalActive.value = true
+}
+
+const deleteComment = () => {
+  confirm.open(
+      'Are you sure?',
+      'Area you sure you want to delete this?\nThis action cannot be undone!',
+  ).then(({confirm}) => {
+    console.log(confirm)
+  })
 }
 </script>
 
