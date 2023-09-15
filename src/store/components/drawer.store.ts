@@ -19,9 +19,33 @@ export const useAppDrawer = defineStore("drawer", () => {
       route: "/admin"
     },
     {
+      title: "Projects",
+      value: "projects",
+      icon: "mdi-folder",
+      route: "/admin/users"
+    },
+    {
       title: "Users",
       value: "users",
       icon: "mdi-account",
+      route: "/admin/users"
+    },
+    {
+      title: "Comments",
+      value: "comments",
+      icon: "mdi-comment-account",
+      route: "/admin/users"
+    },
+    {
+      title: "Technologies",
+      value: "technologies",
+      icon: "mdi-code-braces",
+      route: "/admin/users"
+    },
+    {
+      title: "Tags",
+      value: "tags",
+      icon: "mdi-tag",
       route: "/admin/users"
     },
   ]);
