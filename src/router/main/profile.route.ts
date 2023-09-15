@@ -7,4 +7,12 @@ export default [
             isAdminRoute: false,
         }
     },
+  {
+    path: '/profile/comments',
+    name: 'main.profile.comments',
+    component: () => import(/* webpackChunkName: "home" */ '@/views/main/my-comments/MyComments.vue'),
+    meta: {
+      isAdminRoute: false,
+    }
+  },
 ]
