@@ -43,6 +43,16 @@
                   </v-col>
                 </v-row>
 
+                <v-row class="mb-5">
+                  <v-col cols="12">
+                    <div class="text-body-2">
+                      <router-link to="/admin/password-recovery/step-1" class="text-primary">
+                        Forgot your password?
+                      </router-link>
+                    </div>
+                  </v-col>
+                </v-row>
+
                 <v-row>
                   <v-col cols="12">
                     <v-btn-primary
@@ -54,14 +64,6 @@
                     </v-btn-primary>
                   </v-col>
                 </v-row>
-
-<!--                <v-row>-->
-<!--                  <v-col cols="12">-->
-<!--                    <div class="text-body-2">-->
-<!--                      Esqueceu sua senha? Clique <a href="#">aqui</a>.-->
-<!--                    </div>-->
-<!--                  </v-col>-->
-<!--                </v-row>-->
               </v-container>
             </v-form>
           </main>
