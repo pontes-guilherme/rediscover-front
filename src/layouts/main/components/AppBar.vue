@@ -25,34 +25,87 @@
     <v-spacer></v-spacer>
 
     <div class="avatar">
-      <v-avatar
-        class="hidden-sm-and-down mr-10"
-        color="grey-darken-1"
-        size="32"
-      ></v-avatar>
+      <v-menu location="bottom">
+        <template v-slot:activator="{ props }">
+          <v-avatar
+            class="hidden-sm-and-down mr-10"
+            color="grey-darken-1"
+            size="32"
+            v-bind="props"
+          ></v-avatar>
+        </template>
+
+        <v-list>
+          <v-list-item>
+            <v-list-item-title class="d-flex align-center">
+              <v-btn
+                color="primary"
+                variant="text"
+                class="w-100"
+                @click="router.push('/profile/projects')"
+              >
+                <span class="ml-2">My Projects</span>
+              </v-btn>
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title class="d-flex align-center">
+              <v-btn
+                color="primary"
+                variant="text"
+                class="w-100"
+                @click="router.push('/profile/comments')"
+              >
+                <span class="ml-2">My Comments</span>
+              </v-btn>
+            </v-list-item-title>
+          </v-list-item>
+
+          <v-list-item>
+            <v-list-item-title class="d-flex align-center">
+              <v-btn
+                color="primary"
+                variant="text"
+                class="w-100"
+                @click="logout"
+              >
+                <span class="ml-2">Log Out</span>
+              </v-btn>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </div>
   </v-app-bar>
 </template>
 
 <script setup lang="ts">
+
+import {useRouter} from "vue-router";
+
+const router = useRouter()
+
 const links = [
-    {
-        title: 'Home',
-        path: '/',
-    },
-    {
-        title: 'Discover',
-        path: '/discover',
-    },
-    {
-        title: 'About',
-        path: '/about',
-    },
-    {
-        title: 'Contact',
-        path: '/contact',
-    },
+  {
+    title: 'Home',
+    path: '/',
+  },
+  {
+    title: 'Discover',
+    path: '/discover',
+  },
+  {
+    title: 'About',
+    path: '/about',
+  },
+  {
+    title: 'Contact',
+    path: '/contact',
+  },
 ]
+
+const logout = () => {
+}
 </script>
 
 <style scoped lang="scss">
@@ -78,5 +131,9 @@ const links = [
       width: 100%;
     }
   }
+}
+
+.v-avatar {
+  cursor: pointer;
 }
 </style>
