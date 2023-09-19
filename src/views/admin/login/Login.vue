@@ -6,14 +6,14 @@
           <header>
             <div class="logo-container py-16">
               <img
-                src="../../../assets/logo.png"
+                src="../../../assets/logo.svg"
                 alt=""
                 class="logo-container__logo"
               >
             </div>
           </header>
 
-          <main>
+          <main class="mt-16">
             <v-form
               v-model="formValid"
               @submit="onSubmit"

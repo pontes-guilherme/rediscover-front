@@ -2,17 +2,17 @@
   <v-app-bar class="px-3">
 
     <RouterLink
-      class="nav-item text-decoration-none text-primary"
+      class="nav-item text-decoration-none text-primary text-center flex-1"
       to="/"
     >
-      <div class="logo ml-10">
-        <span class="text-primary font-weight-bold text-sm-h6">REDISCOVER</span>
+      <div class="logo ml-10 text-center">
+        <img src="/src/assets/logo.svg" alt="logo" class="w-100" />
       </div>
     </RouterLink>
 
     <v-spacer></v-spacer>
 
-    <div class="nav-items" v-if="!hideMenuAndShowDrawer">
+    <div class="nav-items flex-grow-1" v-if="!hideMenuAndShowDrawer">
       <RouterLink
         class="nav-item text-decoration-none text-primary"
         :to="link.path"
@@ -25,7 +25,7 @@
 
     <v-spacer></v-spacer>
 
-    <div class="avatar d-flex justify-center align-center">
+    <div class="avatar flex-1">
       <v-menu location="bottom">
         <template v-slot:activator="{ props }">
           <v-avatar
@@ -117,10 +117,6 @@ const drawer = ref(false)
 
 const links = [
   {
-    title: 'Home',
-    path: '/',
-  },
-  {
     title: 'Discover',
     path: '/discover',
   },
@@ -154,8 +150,16 @@ const hideMenuAndShowDrawer = computed(() => {
 </script>
 
 <style scoped lang="scss">
-.avatar, .logo {
-  width: 15%;
+//.avatar, .logo {
+//  width: 15%;
+//}
+
+.logo {
+  width: 160px;
+}
+
+.avatar {
+  width: 200px;
 }
 
 .avatar {

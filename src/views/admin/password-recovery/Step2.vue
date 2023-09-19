@@ -5,9 +5,9 @@
         <v-card>
           <div class="page px-4 px-sm-16 py-4">
             <header>
-              <div class="logo-container">
+              <div class="logo-container py-16">
                 <img
-                  src="../../../assets/logo.png"
+                  src="../../../assets/logo.svg"
                   alt=""
                   class="logo-container__logo"
                 >
