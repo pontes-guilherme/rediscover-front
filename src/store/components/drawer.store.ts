@@ -13,21 +13,15 @@ export const useAppDrawer = defineStore("drawer", () => {
   const expanded = ref(true);
   const menu = ref<MenuItem[]>([
     {
-      title: "Home",
-      value: "home",
-      icon: "mdi-view-dashboard",
-      route: "/admin"
+      title: "Users",
+      value: "users",
+      icon: "mdi-account",
+      route: "/admin/users"
     },
     {
       title: "Projects",
       value: "projects",
       icon: "mdi-folder",
-      route: "/admin/users"
-    },
-    {
-      title: "Users",
-      value: "users",
-      icon: "mdi-account",
       route: "/admin/users"
     },
     {
