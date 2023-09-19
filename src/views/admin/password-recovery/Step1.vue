@@ -7,14 +7,14 @@
             <header>
               <div class="logo-container py-16">
                 <img
-                  src="../../../assets/logo.png"
+                  src="../../../assets/logo.svg"
                   alt=""
                   class="logo-container__logo"
                 >
               </div>
             </header>
 
-            <main>
+            <main class="mt-16">
               <section class="text-grey-darken-1 text-h6 font-weight-light mb-10">
                 Enter your email in the field below. We will send you a verification code which you must use in the next
                 step to proceed with password recovery

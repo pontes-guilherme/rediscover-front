@@ -6,7 +6,7 @@
       to="/"
     >
       <div class="logo ml-10 text-center">
-        <span class="text-primary font-weight-bold text-sm-h6">REDISCOVER</span>
+        <img src="/src/assets/logo.svg" alt="logo" class="w-100" />
       </div>
     </RouterLink>
 
@@ -154,8 +154,12 @@ const hideMenuAndShowDrawer = computed(() => {
 //  width: 15%;
 //}
 
+.logo {
+  width: 160px;
+}
+
 .avatar {
-  min-width: 160px;
+  width: 200px;
 }
 
 .avatar {
