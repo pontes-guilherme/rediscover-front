@@ -11,7 +11,7 @@ interface LoginResponse {
 
 export const useAuthStore = defineStore("auth", () => {
     const isAuthenticated = ref(localStorage.getItem(ADMIN_AUTH_KEY) === 'true' || false);
-    const user = ref(localStorage.getItem(ADMIN_USER_KEY) || null);
+    const user = ref<User>(JSON.parse(localStorage.getItem(ADMIN_USER_KEY) || '') || null);
     const token = ref(localStorage.getItem(ADMIN_TOKEN_KEY) || null);
 
     const email = ref('');
@@ -28,10 +28,16 @@ export const useAuthStore = defineStore("auth", () => {
         localStorage.setItem(ADMIN_USER_KEY, JSON.stringify(userObject));
     }
 
+    function setToken(tokenString: any) {
+        token.value = tokenString;
+        localStorage.setItem(ADMIN_TOKEN_KEY, tokenString);
+
+    }
+
     function setAuthenticatedUser(data: LoginResponse) {
         setIsAuthenticated(true);
         setUser(data.user);
-        localStorage.setItem(ADMIN_TOKEN_KEY, data.token);
+        setToken(data.token);
     }
 
     function login() {
@@ -43,6 +49,8 @@ export const useAuthStore = defineStore("auth", () => {
         return new Promise((resolve) => {
             setIsAuthenticated(false);
             setUser(null);
+            setToken(null);
+
             resolve(true);
         });
     }

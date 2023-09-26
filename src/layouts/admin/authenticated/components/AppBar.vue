@@ -17,6 +17,12 @@
           v-bind="props"
           class="hoverable"
         >
+          <v-list-item
+              prepend-avatar="@/assets/images/user/default-user-picture.png"
+              :title="user?.name"
+              :subtitle="user?.email || ''"
+              v-if="user"
+          />
         </v-list>
       </template>
 
@@ -42,6 +48,7 @@ import {useAppDrawer} from "@/store/components/drawer.store";
 import {useProjectInfosStore} from "@/store/ProjectInfos.store";
 import {useAuthStore} from "@/store/pages/admin/auth/auth.store";
 import {computed} from "vue";
+import router from "@/router";
 
 const drawerStore = useAppDrawer();
 const authStore = useAuthStore();
@@ -53,8 +60,9 @@ const toggleDrawer = () => {
   drawerStore.toggle();
 }
 
-const logout = () => {
-  //
+const logout = async () => {
+  await authStore.logout();
+  router.go(0);
 }
 
 </script>
