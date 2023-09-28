@@ -6,27 +6,27 @@
           <header>
             <div class="logo-container py-16">
               <img
-                src="../../../assets/logo.svg"
-                alt=""
-                class="logo-container__logo"
+                  src="../../../assets/logo.svg"
+                  alt=""
+                  class="logo-container__logo"
               >
             </div>
           </header>
 
           <main class="mt-16">
             <v-form
-              v-model="formValid"
-              @submit="onSubmit"
+                v-model="formValid"
+                @submit="onSubmit"
             >
               <v-container>
                 <v-row>
                   <v-col cols="12">
                     <v-text-field
-                      v-model="email"
-                      :rules="emailRules"
-                      label="E-mail"
-                      type="email"
-                      required
+                        v-model="email"
+                        :rules="emailRules"
+                        label="E-mail"
+                        type="email"
+                        required
                     />
                   </v-col>
                 </v-row>
@@ -34,11 +34,11 @@
                 <v-row>
                   <v-col cols="12">
                     <v-text-field
-                      v-model="password"
-                      :rules="passwordRules"
-                      label="Password"
-                      type="password"
-                      required
+                        v-model="password"
+                        :rules="passwordRules"
+                        label="Password"
+                        type="password"
+                        required
                     />
                   </v-col>
                 </v-row>
@@ -56,9 +56,9 @@
                 <v-row>
                   <v-col cols="12">
                     <v-btn-primary
-                      type="submit"
-                      block
-                      :disabled="!formValid"
+                        type="submit"
+                        block
+                        :disabled="!formValid"
                     >
                       Login
                     </v-btn-primary>
@@ -74,15 +74,25 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from "vue";
 import {emailRules, passwordRules} from "@/views/admin/login/formRules.rules";
+import {useAuthStore} from '@/store/pages/admin/auth/auth.store';
+import {storeToRefs} from "pinia";
 
-const email = ref('');
-const password = ref('');
-const formValid = ref(false);
+const store = useAuthStore();
+
+const {
+  login
+} = store;
+
+const {
+  email,
+  password,
+  formValid,
+} = storeToRefs(store);
 
 function onSubmit(e: Event) {
   e.preventDefault();
+  login()
 }
 
 </script>
