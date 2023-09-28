@@ -2,7 +2,7 @@ import api from "@/services/admin-axios";
 import {CustomResponse} from "@/models/Base/CustomResponse.interface";
 import {User} from "@/models/User.model";
 import {useAuthStore} from "@/store/pages/admin/auth/auth.store";
-import axios from "axios";
+import {AxiosResponse, AxiosError} from "axios";
 
 export const login = async (email: string, password: string) => {
     const userStore = useAuthStore();
@@ -12,12 +12,12 @@ export const login = async (email: string, password: string) => {
             email,
             password
         })
-            .then((response: axios.AxiosResponse) => {
+            .then((response: AxiosResponse) => {
                 userStore.setAuthenticatedUser(response.data.data);
 
                 resolve(true);
             })
-            .catch((error: axios.AxiosError) => {
+            .catch((error: AxiosError) => {
                 console.log(error);
                 reject();
             });

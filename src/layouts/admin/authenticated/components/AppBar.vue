@@ -18,7 +18,7 @@
           class="hoverable"
         >
           <v-list-item
-              prepend-avatar="@/assets/images/user/default-user-picture.png"
+              prepend-avatar="@/assets/pictures/user/default-user-picture.png"
               :title="user?.name"
               :subtitle="user?.email || ''"
               v-if="user"
