@@ -1,7 +1,7 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
-import * as AuthService from '@/services/admin-auth.service';
-import {ADMIN_AUTH_KEY, ADMIN_TOKEN_KEY, ADMIN_USER_KEY} from "@/constants/localstorage.constants";
+import * as AuthService from '@/services/client-auth.service';
+import {CLIENT_AUTH_KEY, CLIENT_TOKEN_KEY, CLIENT_USER_KEY} from "@/constants/localstorage.constants";
 import {User} from "@/models/User.model";
 
 interface LoginResponse {
@@ -9,13 +9,13 @@ interface LoginResponse {
   token: string;
 }
 
-export const useAuthStore = defineStore("admin-auth", () => {
-  const isAuthenticated = ref(localStorage.getItem(ADMIN_AUTH_KEY) === 'true' || false);
+export const useClientAuthStore = defineStore("client-auth", () => {
+  const isAuthenticated = ref(localStorage.getItem(CLIENT_AUTH_KEY) === 'true' || false);
   const user = ref<User>(
-    JSON.parse(localStorage.getItem(ADMIN_USER_KEY) || '{}')
+    JSON.parse(localStorage.getItem(CLIENT_USER_KEY) || '{}')
     || null
   );
-  const token = ref(localStorage.getItem(ADMIN_TOKEN_KEY) || null);
+  const token = ref(localStorage.getItem(CLIENT_TOKEN_KEY) || null);
 
   const email = ref('');
   const password = ref('');
@@ -23,17 +23,17 @@ export const useAuthStore = defineStore("admin-auth", () => {
 
   function setIsAuthenticated(authenticated: boolean) {
     isAuthenticated.value = authenticated;
-    localStorage.setItem(ADMIN_AUTH_KEY, authenticated.toString());
+    localStorage.setItem(CLIENT_AUTH_KEY, authenticated.toString());
   }
 
   function setUser(userObject: any) {
     user.value = userObject;
-    localStorage.setItem(ADMIN_USER_KEY, JSON.stringify(userObject));
+    localStorage.setItem(CLIENT_USER_KEY, JSON.stringify(userObject));
   }
 
   function setToken(tokenString: any) {
     token.value = tokenString;
-    localStorage.setItem(ADMIN_TOKEN_KEY, tokenString);
+    localStorage.setItem(CLIENT_TOKEN_KEY, tokenString);
 
   }
 
@@ -43,9 +43,9 @@ export const useAuthStore = defineStore("admin-auth", () => {
     setToken(data.token);
   }
 
-  function login() {
-    AuthService
-      .login(email.value, password.value)
+  async function getAuthUrl() {
+    return AuthService
+      .getGithubAuthUrl()
   }
 
   async function logout() {
@@ -66,7 +66,7 @@ export const useAuthStore = defineStore("admin-auth", () => {
     password,
     formValid,
 
-    login,
+    getAuthUrl,
     logout,
     setIsAuthenticated,
     setAuthenticatedUser,

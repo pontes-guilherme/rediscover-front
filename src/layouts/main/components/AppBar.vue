@@ -6,7 +6,7 @@
       to="/"
     >
       <div class="logo ml-10 text-center">
-        <img src="/src/assets/logo.svg" alt="logo" class="w-100" />
+        <img src="/src/assets/logo.svg" alt="logo" class="w-100"/>
       </div>
     </RouterLink>
 
@@ -26,56 +26,66 @@
     <v-spacer></v-spacer>
 
     <div class="avatar flex-1">
-      <v-menu location="bottom">
-        <template v-slot:activator="{ props }">
-          <v-avatar
-            class="hidden-sm-and-down mr-10"
-            color="grey-darken-1"
-            size="32"
-            v-bind="props"
-          ></v-avatar>
-        </template>
+      <v-btn
+        color="black"
+        variant="flat"
+        class="d-flex align-center"
+        @click="getUrlAndRedirect"
+      >
+        <v-icon icon="mdi-github" class="mr-1"/>
+        Sign in
+      </v-btn>
 
-        <v-list>
-          <v-list-item>
-            <v-list-item-title class="d-flex align-center">
-              <v-btn
-                color="primary"
-                variant="text"
-                class="w-100"
-                @click="router.push('/profile/projects')"
-              >
-                <span class="ml-2">My Projects</span>
-              </v-btn>
-            </v-list-item-title>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title class="d-flex align-center">
-              <v-btn
-                color="primary"
-                variant="text"
-                class="w-100"
-                @click="router.push('/profile/comments')"
-              >
-                <span class="ml-2">My Comments</span>
-              </v-btn>
-            </v-list-item-title>
-          </v-list-item>
+      <!--      <v-menu location="bottom">-->
+      <!--        <template v-slot:activator="{ props }">-->
+      <!--          <v-avatar-->
+      <!--            class="hidden-sm-and-down mr-10"-->
+      <!--            color="grey-darken-1"-->
+      <!--            size="32"-->
+      <!--            v-bind="props"-->
+      <!--          ></v-avatar>-->
+      <!--        </template>-->
 
-          <v-list-item>
-            <v-list-item-title class="d-flex align-center">
-              <v-btn
-                color="primary"
-                variant="text"
-                class="w-100"
-                @click="logout"
-              >
-                <span class="ml-2">Log Out</span>
-              </v-btn>
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+      <!--        <v-list>-->
+      <!--          <v-list-item>-->
+      <!--            <v-list-item-title class="d-flex align-center">-->
+      <!--              <v-btn-->
+      <!--                color="primary"-->
+      <!--                variant="text"-->
+      <!--                class="w-100"-->
+      <!--                @click="router.push('/profile/projects')"-->
+      <!--              >-->
+      <!--                <span class="ml-2">My Projects</span>-->
+      <!--              </v-btn>-->
+      <!--            </v-list-item-title>-->
+      <!--          </v-list-item>-->
+      <!--          <v-list-item>-->
+      <!--            <v-list-item-title class="d-flex align-center">-->
+      <!--              <v-btn-->
+      <!--                color="primary"-->
+      <!--                variant="text"-->
+      <!--                class="w-100"-->
+      <!--                @click="router.push('/profile/comments')"-->
+      <!--              >-->
+      <!--                <span class="ml-2">My Comments</span>-->
+      <!--              </v-btn>-->
+      <!--            </v-list-item-title>-->
+      <!--          </v-list-item>-->
+
+      <!--          <v-list-item>-->
+      <!--            <v-list-item-title class="d-flex align-center">-->
+      <!--              <v-btn-->
+      <!--                color="primary"-->
+      <!--                variant="text"-->
+      <!--                class="w-100"-->
+      <!--                @click="logout"-->
+      <!--              >-->
+      <!--                <span class="ml-2">Log Out</span>-->
+      <!--              </v-btn>-->
+      <!--            </v-list-item-title>-->
+      <!--          </v-list-item>-->
+      <!--        </v-list>-->
+      <!--      </v-menu>-->
 
       <v-app-bar-nav-icon
         class="text-primary"
@@ -109,9 +119,13 @@
 import {useRouter} from "vue-router";
 import {computed, ref} from "vue";
 import {useDisplay} from "vuetify";
+import {useClientAuthStore} from "@/store/pages/main/auth/auth.store";
 
 const router = useRouter()
 const {smAndDown} = useDisplay()
+const store = useClientAuthStore()
+
+const {getAuthUrl} = store
 
 const drawer = ref(false)
 
@@ -147,6 +161,14 @@ const logout = () => {
 const hideMenuAndShowDrawer = computed(() => {
   return !!smAndDown.value
 })
+
+const getUrlAndRedirect = async () => {
+  getAuthUrl().then(url => {
+    console.log(url)
+
+    window.open(url, '_blank', 'toolbar=0,location=0,menubar=0,width=600,height=600');
+  })
+}
 </script>
 
 <style scoped lang="scss">
