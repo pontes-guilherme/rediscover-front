@@ -1,7 +1,5 @@
-import api from "@/services/admin-axios";
-import {CustomResponse} from "@/models/Base/CustomResponse.interface";
-import {User} from "@/models/User.model";
-import {useAuthStore} from "@/store/pages/admin/auth/auth.store";
+import api from "@/services/client-axios";
+import {useClientAuthStore} from "@/store/pages/main/auth/auth.store";
 
 export const getGithubAuthUrl = async () => {
     const response = await api.get<{ data: { url: string } }>("/auth/github/url")
@@ -9,9 +7,13 @@ export const getGithubAuthUrl = async () => {
     return response.data.data.url
 };
 
+export const fetchProfile = async () => {
+    return api.get("/profile");
+}
+
 export const logout = async () => {
     return new Promise((resolve, reject) => {
-        const userStore = useAuthStore();
+        const userStore = useClientAuthStore();
 
         api.post("/auth/logout")
             .then(() => {

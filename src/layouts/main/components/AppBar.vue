@@ -2,8 +2,8 @@
   <v-app-bar class="px-3">
 
     <RouterLink
-      class="nav-item text-decoration-none text-primary text-center flex-1"
-      to="/"
+        class="nav-item text-decoration-none text-primary text-center flex-1"
+        to="/"
     >
       <div class="logo ml-10 text-center">
         <img src="/src/assets/logo.svg" alt="logo" class="w-100"/>
@@ -14,10 +14,10 @@
 
     <div class="nav-items flex-grow-1" v-if="!hideMenuAndShowDrawer">
       <RouterLink
-        class="nav-item text-decoration-none text-primary"
-        :to="link.path"
-        v-for="link in links"
-        :key="link.path"
+          class="nav-item text-decoration-none text-primary"
+          :to="link.path"
+          v-for="link in links"
+          :key="link.path"
       >
         <v-btn variant="text">{{ link.title }}</v-btn>
       </RouterLink>
@@ -27,10 +27,10 @@
 
     <div class="avatar flex-1">
       <v-btn
-        color="black"
-        variant="flat"
-        class="d-flex align-center"
-        @click="getUrlAndRedirect"
+          color="black"
+          variant="flat"
+          class="d-flex align-center"
+          @click="getUrlAndRedirect"
       >
         <v-icon icon="mdi-github" class="mr-1"/>
         Sign in
@@ -88,24 +88,24 @@
       <!--      </v-menu>-->
 
       <v-app-bar-nav-icon
-        class="text-primary"
-        variant="text"
-        v-if="hideMenuAndShowDrawer"
-        @click.stop="drawer = !drawer"
+          class="text-primary"
+          variant="text"
+          v-if="hideMenuAndShowDrawer"
+          @click.stop="drawer = !drawer"
       ></v-app-bar-nav-icon>
     </div>
   </v-app-bar>
 
   <v-navigation-drawer
-    v-model="drawer"
-    location="right"
-    temporary
+      v-model="drawer"
+      location="right"
+      temporary
   >
     <v-list>
       <v-list-item v-for="link in [...links, ...loggedLinks]" :key="link.path">
         <RouterLink
-          class="nav-item text-decoration-none text-primary w-100"
-          :to="link.path"
+            class="nav-item text-decoration-none text-primary w-100"
+            :to="link.path"
         >
           <v-btn class="w-100" variant="text">{{ link.title }}</v-btn>
         </RouterLink>
@@ -116,16 +116,14 @@
 
 <script setup lang="ts">
 
-import {useRouter} from "vue-router";
-import {computed, ref} from "vue";
+import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import {useDisplay} from "vuetify";
 import {useClientAuthStore} from "@/store/pages/main/auth/auth.store";
 
-const router = useRouter()
 const {smAndDown} = useDisplay()
 const store = useClientAuthStore()
 
-const {getAuthUrl} = store
+const {getAuthUrl, fetchProfile, setToken} = store
 
 const drawer = ref(false)
 
@@ -164,11 +162,38 @@ const hideMenuAndShowDrawer = computed(() => {
 
 const getUrlAndRedirect = async () => {
   getAuthUrl().then(url => {
-    console.log(url)
+    // window.location.href = url;
+    // console.log(url)
 
     window.open(url, '_blank', 'toolbar=0,location=0,menubar=0,width=600,height=600');
+
   })
 }
+
+async function onMessage(e: any) {
+  // if (e.origin !== window.origin || !e.data.token) {
+  //   return
+  // }
+
+  if (!e.data.token) {
+    return
+  }
+
+  console.log('onMessage', e)
+
+  const token = e.data.token;
+
+  setToken(token)
+  fetchProfile()
+}
+
+onMounted(() => {
+  window.addEventListener('message', onMessage, false)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('message', onMessage)
+})
 </script>
 
 <style scoped lang="scss">
