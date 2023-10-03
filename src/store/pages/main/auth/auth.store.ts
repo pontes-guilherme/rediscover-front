@@ -39,7 +39,6 @@ export const useClientAuthStore = defineStore("client-auth", () => {
     }
 
     function setAuthenticatedUser(data: LoginResponse) {
-        console.log(data)
         setIsAuthenticated(true);
 
         if (data.user) {
