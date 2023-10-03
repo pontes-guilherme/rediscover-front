@@ -97,7 +97,7 @@
       ></v-app-bar-nav-icon>
 
       <v-avatar
-          color="grey-darken-1"
+          color="grey-darken-1 mr-10 "
           size="32"
           :image="user?.github_profile_picture || ''"
           v-if="hideMenuAndShowDrawer && isAuthenticated"
