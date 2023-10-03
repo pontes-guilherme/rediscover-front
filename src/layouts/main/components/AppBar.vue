@@ -29,63 +29,64 @@
       <v-btn
           color="black"
           variant="flat"
-          class="d-flex align-center"
+          class="align-center hidden-sm-and-down"
           @click="getUrlAndRedirect"
+          v-if="!isAuthenticated"
       >
         <v-icon icon="mdi-github" class="mr-1"/>
         Sign in
       </v-btn>
 
-      <!--      <v-menu location="bottom">-->
-      <!--        <template v-slot:activator="{ props }">-->
-      <!--          <v-avatar-->
-      <!--            class="hidden-sm-and-down mr-10"-->
-      <!--            color="grey-darken-1"-->
-      <!--            size="32"-->
-      <!--            v-bind="props"-->
-      <!--          ></v-avatar>-->
-      <!--        </template>-->
+      <v-menu location="bottom" v-if="isAuthenticated">
+        <template v-slot:activator="{ props }">
+          <v-avatar
+              class="hidden-sm-and-down mr-10"
+              color="grey-darken-1"
+              size="32"
+              v-bind="props"
+          ></v-avatar>
+        </template>
 
-      <!--        <v-list>-->
-      <!--          <v-list-item>-->
-      <!--            <v-list-item-title class="d-flex align-center">-->
-      <!--              <v-btn-->
-      <!--                color="primary"-->
-      <!--                variant="text"-->
-      <!--                class="w-100"-->
-      <!--                @click="router.push('/profile/projects')"-->
-      <!--              >-->
-      <!--                <span class="ml-2">My Projects</span>-->
-      <!--              </v-btn>-->
-      <!--            </v-list-item-title>-->
-      <!--          </v-list-item>-->
-      <!--          <v-list-item>-->
-      <!--            <v-list-item-title class="d-flex align-center">-->
-      <!--              <v-btn-->
-      <!--                color="primary"-->
-      <!--                variant="text"-->
-      <!--                class="w-100"-->
-      <!--                @click="router.push('/profile/comments')"-->
-      <!--              >-->
-      <!--                <span class="ml-2">My Comments</span>-->
-      <!--              </v-btn>-->
-      <!--            </v-list-item-title>-->
-      <!--          </v-list-item>-->
+        <v-list>
+          <v-list-item>
+            <v-list-item-title class="d-flex align-center">
+              <v-btn
+                  color="primary"
+                  variant="text"
+                  class="w-100"
+                  @click="router.push('/profile/projects')"
+              >
+                <span class="ml-2">My Projects</span>
+              </v-btn>
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title class="d-flex align-center">
+              <v-btn
+                  color="primary"
+                  variant="text"
+                  class="w-100"
+                  @click="router.push('/profile/comments')"
+              >
+                <span class="ml-2">My Comments</span>
+              </v-btn>
+            </v-list-item-title>
+          </v-list-item>
 
-      <!--          <v-list-item>-->
-      <!--            <v-list-item-title class="d-flex align-center">-->
-      <!--              <v-btn-->
-      <!--                color="primary"-->
-      <!--                variant="text"-->
-      <!--                class="w-100"-->
-      <!--                @click="logout"-->
-      <!--              >-->
-      <!--                <span class="ml-2">Log Out</span>-->
-      <!--              </v-btn>-->
-      <!--            </v-list-item-title>-->
-      <!--          </v-list-item>-->
-      <!--        </v-list>-->
-      <!--      </v-menu>-->
+          <v-list-item>
+            <v-list-item-title class="d-flex align-center">
+              <v-btn
+                  color="primary"
+                  variant="text"
+                  class="w-100"
+                  @click="logout"
+              >
+                <span class="ml-2">Log Out</span>
+              </v-btn>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
 
       <v-app-bar-nav-icon
           class="text-primary"
@@ -102,7 +103,7 @@
       temporary
   >
     <v-list>
-      <v-list-item v-for="link in [...links, ...loggedLinks]" :key="link.path">
+      <v-list-item v-for="link in links" :key="link.path">
         <RouterLink
             class="nav-item text-decoration-none text-primary w-100"
             :to="link.path"
@@ -111,6 +112,34 @@
         </RouterLink>
       </v-list-item>
     </v-list>
+
+    <v-list v-if="isAuthenticated">
+      <v-list-item v-for="link in loggedLinks" :key="link.path">
+        <RouterLink
+            class="nav-item text-decoration-none text-primary w-100"
+            :to="link.path"
+        >
+          <v-btn class="w-100" variant="text">{{ link.title }}</v-btn>
+        </RouterLink>
+      </v-list-item>
+    </v-list>
+
+    <template v-slot:append>
+      <div class="pa-2 text-center">
+        <v-btn class="w-100" variant="text" v-if="isAuthenticated">Logout</v-btn>
+
+        <v-btn
+            color="black"
+            variant="flat"
+            class="align-center"
+            @click="getUrlAndRedirect"
+            v-if="!isAuthenticated"
+        >
+          <v-icon icon="mdi-github" class="mr-1"/>
+          Sign in
+        </v-btn>
+      </div>
+    </template>
   </v-navigation-drawer>
 </template>
 
@@ -119,11 +148,18 @@
 import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import {useDisplay} from "vuetify";
 import {useClientAuthStore} from "@/store/pages/main/auth/auth.store";
+import {useRouter} from "vue-router";
+
+const router = useRouter()
 
 const {smAndDown} = useDisplay()
 const store = useClientAuthStore()
 
 const {getAuthUrl, fetchProfile, setToken} = store
+
+const isAuthenticated = computed(() => {
+  return !!store.isAuthenticated
+})
 
 const drawer = ref(false)
 
@@ -154,6 +190,7 @@ const loggedLinks = [
 ]
 
 const logout = () => {
+  store.logout()
 }
 
 const hideMenuAndShowDrawer = computed(() => {
@@ -162,11 +199,7 @@ const hideMenuAndShowDrawer = computed(() => {
 
 const getUrlAndRedirect = async () => {
   getAuthUrl().then(url => {
-    // window.location.href = url;
-    // console.log(url)
-
     window.open(url, '_blank', 'toolbar=0,location=0,menubar=0,width=600,height=600');
-
   })
 }
 
@@ -179,11 +212,12 @@ async function onMessage(e: any) {
     return
   }
 
-  console.log('onMessage', e)
+  // console.log('onMessage', e)
 
   const token = e.data.token;
 
   setToken(token)
+
   fetchProfile()
 }
 
