@@ -44,6 +44,7 @@
               color="grey-darken-1"
               size="32"
               v-bind="props"
+              :image="user?.github_profile_picture || ''"
           ></v-avatar>
         </template>
 
@@ -91,9 +92,17 @@
       <v-app-bar-nav-icon
           class="text-primary"
           variant="text"
-          v-if="hideMenuAndShowDrawer"
+          v-if="hideMenuAndShowDrawer && !isAuthenticated"
           @click.stop="drawer = !drawer"
       ></v-app-bar-nav-icon>
+
+      <v-avatar
+          color="grey-darken-1"
+          size="32"
+          :image="user?.github_profile_picture || ''"
+          v-if="hideMenuAndShowDrawer && isAuthenticated"
+          @click.stop="drawer = !drawer"
+      ></v-avatar>
     </div>
   </v-app-bar>
 
@@ -126,7 +135,7 @@
 
     <template v-slot:append>
       <div class="pa-2 text-center">
-        <v-btn class="w-100" variant="text" v-if="isAuthenticated">Logout</v-btn>
+        <v-btn class="w-100" variant="text" v-if="isAuthenticated" @click="logout">Logout</v-btn>
 
         <v-btn
             color="black"
@@ -149,6 +158,7 @@ import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import {useDisplay} from "vuetify";
 import {useClientAuthStore} from "@/store/pages/main/auth/auth.store";
 import {useRouter} from "vue-router";
+import {storeToRefs} from "pinia";
 
 const router = useRouter()
 
@@ -156,6 +166,7 @@ const {smAndDown} = useDisplay()
 const store = useClientAuthStore()
 
 const {getAuthUrl, fetchProfile, setToken} = store
+const {user} = storeToRefs(store)
 
 const isAuthenticated = computed(() => {
   return !!store.isAuthenticated
