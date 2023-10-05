@@ -1,7 +1,10 @@
 <template>
   <div class="project">
-    <div class="project__image">
-      <img src="https://placehold.co/600x400?text=project image" alt="project"/>
+    <div class="project__image d-flex justify-center align-center position-relative" ref="projectImage">
+      <div class="backdrop"></div>
+      <div class="project__name d-flex justify-center align-center">
+        {{ owner }}/{{ repo }}
+      </div>
     </div>
 
     <div class="project__info w-100 mt-5">
@@ -56,14 +59,76 @@
   </div>
 </template>
 
+<script lang="ts" setup>
+import {useProjectAddStore} from "@/store/pages/main/projects/add.store";
+import {storeToRefs} from "pinia";
+import {getOwnerAndRepoFromUrl} from "@/services/github.service";
+import {generateGradient, hashString} from "@/utils/colors.util";
+import {onMounted, ref, watch} from "vue";
+
+const store = useProjectAddStore();
+
+const {loading, projectUrl} = storeToRefs(store)
+
+const projectImage = ref<HTMLDivElement | null>(null)
+const owner = ref('')
+const repo = ref('')
+
+const getProjectGradient = (): string => {
+  // hash the project owner/name to get a unique color
+  const hash = hashString(`${owner.value}/${repo.value}`)
+  return generateGradient(hash)
+}
+
+const changeGradient = () => {
+  if (!projectImage.value) return
+
+  projectImage.value.style.background = getProjectGradient() || 'white'
+}
+
+watch(projectUrl, () => {
+  changeGradient()
+})
+
+onMounted(() => {
+  const {owner: o, repo: r} = getOwnerAndRepoFromUrl(projectUrl.value)
+  owner.value = o
+  repo.value = r
+
+  changeGradient()
+})
+
+</script>
+
 <style scoped lang="scss">
 .project {
+  &__name {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: white;
+    margin: 20px;
+    z-index: 2;
+
+    //background-color: rgba(0, 0, 0, 0.1);
+    //padding: 10px;
+    //border-radius: 5px;
+
+    text-align: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   &__image {
     width: 100%;
+    height: 300px;
+
+    border-radius: 20px;
 
     img {
       width: 100%;
-      height: 350px;
+      height: 100%;
       border-radius: 20px;
 
       object-fit: cover;
@@ -73,5 +138,14 @@
       }
     }
   }
+}
+
+.backdrop {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%);
+  z-index: 1;
 }
 </style>

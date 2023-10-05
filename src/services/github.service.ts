@@ -5,7 +5,7 @@ export async function isGitHubRepoUrlValid(url: string) {
     return false;
   }
 
-  const [, , , owner, repo] = url.split('/');
+  const {owner, repo} = getOwnerAndRepoFromUrl(url);
 
   try {
     const response = await fetch(`https://api.github.com/repos/${owner}/${repo}`);
@@ -25,3 +25,7 @@ export async function isGitHubRepoUrlValid(url: string) {
   }
 }
 
+export function getOwnerAndRepoFromUrl(url: string): { owner: string, repo: string } {
+  const [, , , owner, repo] = url.split('/');
+  return {owner, repo};
+}
