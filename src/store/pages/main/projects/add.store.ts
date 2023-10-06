@@ -6,6 +6,7 @@ import {Tag} from "@/models/Tag.model";
 import {Technology} from "@/models/Technology.model";
 
 import {ref} from "vue";
+import {ProjectStatusEnum} from "@/enums/project-status.enum";
 
 export const useProjectAddStore = defineStore("project-add", () => {
     const loading = ref(false);
@@ -16,6 +17,10 @@ export const useProjectAddStore = defineStore("project-add", () => {
 
     const selectedTags = ref<Tag[]>([]);
     const selectedTechnologies = ref<Technology[]>([]);
+
+    const project_status = ref<ProjectStatusEnum>();
+    const project_abandonment_reason = ref<string>('');
+    const project_future = ref<string>('');
 
     const isTagSelected = (tag: Tag): boolean => {
         return selectedTags.value.includes(tag);
@@ -77,6 +82,9 @@ export const useProjectAddStore = defineStore("project-add", () => {
         technologies,
         selectedTags,
         selectedTechnologies,
+        project_status,
+        project_abandonment_reason,
+        project_future,
 
         isUrlValid,
         isTagSelected,
