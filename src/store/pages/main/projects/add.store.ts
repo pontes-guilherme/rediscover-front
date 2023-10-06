@@ -63,6 +63,32 @@ export const useProjectAddStore = defineStore("project-add", () => {
         });
     }
 
+    const create = async () => {
+        loading.value = true;
+
+        const data = {
+            name: projectUrl.value,
+            description: projectUrl.value,
+            repository_url: projectUrl.value,
+            abandonment_reason: project_abandonment_reason.value,
+            project_future: project_future.value,
+            project_abandonment_status: project_status.value,
+            tags: selectedTags.value,
+            technologies: selectedTechnologies.value,
+        }
+
+        return new Promise((resolve) => {
+            GithubService.create(data)
+                .then(() => {
+                    resolve(true)
+                })
+                .catch(() => {
+                    resolve(false)
+                })
+                .finally(() => loading.value = false);
+        });
+    }
+
     const fetchTags = async () => {
         TagService.fetch().then((data) => {
             tags.value = data.data.data;
@@ -93,5 +119,6 @@ export const useProjectAddStore = defineStore("project-add", () => {
         toggleTechnology,
         fetchTags,
         fetchTechnologies,
+        create,
     };
 });
