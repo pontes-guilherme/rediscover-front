@@ -1,4 +1,3 @@
-
 <template>
   <div class="techs mt-10">
     <div class="title text-body-1">
@@ -7,57 +6,24 @@
 
     <div class="tech-chips mt-2 d-flex">
       <div
-          :class="`chip tech-chip font-weight-black py-2 px-4 rounded-pill ${isTechSelected(tech) ? 'selected' : ''}`"
+          :class="`chip tech-chip font-weight-black py-2 px-4 rounded-pill ${isTechnologySelected(tech) ? 'selected' : ''}`"
           @click="toggleTechnology(tech)"
           v-for="tech in technologies"
-          :key="tech"
+          :key="tech.id"
       >
-        {{ tech }}
+        {{ tech.name }}
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {useProjectAddStore} from "@/store/pages/main/projects/add.store";
+import {storeToRefs} from "pinia";
 
-const selectedTechnologies = ref<string[]>([]);
-
-const toggleTechnology = (technology: string) => {
-  if (selectedTechnologies.value.includes(technology)) {
-    selectedTechnologies.value = selectedTechnologies.value.filter(tech => tech != technology)
-  } else {
-    selectedTechnologies.value.push(technology)
-  }
-}
-
-const isTechSelected = (technology: string) => {
-  return selectedTechnologies.value.includes(technology)
-}
-
-const technologies = [
-  'Java',
-  'Spring Boot',
-  'PHP',
-  'Laravel',
-  'Symphony',
-  'Zend',
-  'Python',
-  'Flask',
-  'FastAPI',
-  'Javascript',
-  'Node',
-  'Express',
-  'NestJS',
-  'ReactJS',
-  'React Native',
-  'VueJS',
-  'Angular',
-  'Svelte',
-  'PostgreSQL',
-  'Mysql',
-  'MongoDB',
-];
+const store = useProjectAddStore();
+const {isTechnologySelected, toggleTechnology} = store
+const {technologies} = storeToRefs(store)
 </script>
 
 <style scoped lang="scss">

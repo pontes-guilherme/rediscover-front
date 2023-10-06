@@ -7,9 +7,9 @@
         </div>
 
         <div class="content mt-10 w-100">
-          <ProjectInfos />
+          <ProjectInfos/>
 
-          <UserWrittenDetails />
+          <UserWrittenDetails/>
 
           <div class="d-flex justify-center align-center">
             <v-btn-primary class="btn-add mt-6">Save</v-btn-primary>
@@ -23,6 +23,17 @@
 <script setup lang="ts">
 import ProjectInfos from "@/views/main/add-project/components/ProjectInfos.vue";
 import UserWrittenDetails from "@/views/main/add-project/components/UserWrittenDetails.vue";
+import {useProjectAddStore} from "@/store/pages/main/projects/add.store";
+import {onMounted} from "vue";
+
+const store = useProjectAddStore();
+
+const {fetchTags, fetchTechnologies} = store
+
+onMounted(() => {
+  fetchTags()
+  fetchTechnologies()
+})
 
 </script>
 

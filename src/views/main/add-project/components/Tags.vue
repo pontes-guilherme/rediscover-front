@@ -9,40 +9,22 @@
           :class="`chip tag-chip font-weight-black py-2 px-4 rounded-pill ${isTagSelected(tag) ? 'selected' : ''}`"
           @click="toggleTag(tag)"
           v-for="tag in tags"
-          :key="tag"
+          :key="tag.id"
       >
-        {{ tag }}
+        {{ tag.name }}
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {useProjectAddStore} from "@/store/pages/main/projects/add.store";
+import {storeToRefs} from "pinia";
 
-const selectedTags = ref<string[]>([]);
+const store = useProjectAddStore();
+const {isTagSelected, toggleTag} = store
+const {tags} = storeToRefs(store)
 
-const toggleTag = (tag: string) => {
-  if (selectedTags.value.includes(tag)) {
-    selectedTags.value = selectedTags.value.filter(tech => tech != tag)
-  } else {
-    selectedTags.value.push(tag)
-  }
-}
-
-const isTagSelected = (tag: string) => {
-  return selectedTags.value.includes(tag)
-}
-
-const tags = [
-  'Back-End',
-  'Front-End',
-  'Full Stack',
-  'Compilers',
-  'Tools',
-  'Security',
-  'Learn in Public',
-];
 </script>
 
 <style scoped lang="scss">

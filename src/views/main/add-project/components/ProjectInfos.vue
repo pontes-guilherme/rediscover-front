@@ -9,15 +9,17 @@
 
     <div class="project__info w-100 mt-5">
       <div class="title-row w-100 d-flex justify-space-between flex-wrap">
-        <div class="title font-weight-bold text-h5 mr-5">Project Name/Application</div>
-        <div class="stars text-h6 d-flex">
-          <v-icon icon="mdi-star mr-1"/>
-          123
-        </div>
+        <!--        <div class="title font-weight-bold text-h5 mr-5">Project Name/Application</div>-->
       </div>
 
       <div class="description mt-10">
-        <div class="description__title text-h6">Description</div>
+        <div class="d-flex justify-space-between align-center">
+          <div class="description__title text-h6">Description</div>
+          <div class="stars text-h6 d-flex">
+            <v-icon icon="mdi-star mr-1"/>
+            123
+          </div>
+        </div>
 
         <p class="font-weight-regular text-grey-darken-1 mt-2">
           Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi.<br>
