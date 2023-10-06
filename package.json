@@ -21,6 +21,7 @@
     "@babel/types": "^7.21.4",
     "@mdi/font": "^7.2.96",
     "@types/axios": "^0.14.0",
+    "@types/crypto-js": "^4.1.2",
     "@types/node": "^18.15.0",
     "@types/webfontloader": "^1.6.35",
     "@vitejs/plugin-vue": "^4.0.0",
