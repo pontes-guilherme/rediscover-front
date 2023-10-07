@@ -17,7 +17,7 @@
           <div class="description__title text-h6">Description</div>
           <div class="stars text-h6 d-flex">
             <v-icon icon="mdi-star mr-1"/>
-            {{ stars }}
+            {{ formattedStars }}
           </div>
         </div>
 
@@ -39,9 +39,9 @@
               >
                 <a :href="`https://github.com/${contributor.login}`" target="_blank">
                   <img
-                      class="rounded-circle contributor-avatar mr-3"
-                      alt="contributor"
-                      :src="contributor.avatar_url"
+                    class="rounded-circle contributor-avatar mr-3"
+                    alt="contributor"
+                    :src="contributor.avatar_url"
                   />
                 </a>
               </div>
@@ -114,6 +114,11 @@ const formattedCommitDate = computed(() => {
 
   const date = new Date(last_commit.value.commit.committer.date)
   return date.toLocaleDateString() + ' ' + date.toLocaleTimeString()
+})
+
+const formattedStars = computed(() => {
+  const formatter = Intl.NumberFormat('en', {notation: 'compact'});
+  return formatter.format(stars.value)
 })
 
 watch(projectUrl, () => {

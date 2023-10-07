@@ -1,4 +1,5 @@
 import {defineStore} from "pinia";
+import {ref} from "vue";
 import * as GithubService from "@/services/github.service";
 import * as ProjectService from "@/services/project.service";
 import * as TagService from "@/services/tag.service";
@@ -6,10 +7,9 @@ import * as TechnologyService from "@/services/technology.service";
 import {Tag} from "@/models/Tag.model";
 import {Technology} from "@/models/Technology.model";
 
-import {ref} from "vue";
 import {ProjectStatusEnum} from "@/enums/project-status.enum";
 import {CreateProjectRequest} from "@/models/Project.model";
-import {Author, GithubRepositoryCommit, GithubRepositoryLangs} from "@/models/Github.model";
+import {Author, GithubRepositoryCommit} from "@/models/Github.model";
 
 export const useProjectAddStore = defineStore("project-add", () => {
     const loading = ref(false);
@@ -86,16 +86,14 @@ export const useProjectAddStore = defineStore("project-add", () => {
             technologies: selectedTechnologies.value,
         }
 
-        return new Promise((resolve) => {
-            ProjectService.create(data)
-                .then(() => {
-                    resolve(true)
-                })
-                .catch(() => {
-                    resolve(false)
-                })
-                .finally(() => loading.value = false);
-        });
+        ProjectService.create(data)
+            .then(() => {
+
+            })
+            .catch(() => {
+
+            })
+            .finally(() => loading.value = false);
     }
 
     const loadProjectDetails = async () => {
@@ -113,7 +111,8 @@ export const useProjectAddStore = defineStore("project-add", () => {
                 // 3 contributors max
                 contributors.value = repository.contributors.filter(
                     (contributor) => contributor.type === 'User'
-                ).slice(0, 3)
+                )
+                    .slice(0, 3)
                 languages.value = Object.keys(repository.languages);
                 stars.value = repository.stargazers_count;
                 description.value = repository.description;
