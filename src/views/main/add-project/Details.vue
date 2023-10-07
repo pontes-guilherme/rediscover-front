@@ -37,7 +37,7 @@ import {storeToRefs} from "pinia";
 const route = useRoute()
 const store = useProjectAddStore();
 
-const {fetchTags, fetchTechnologies, loadProjectDetails, create} = store
+const {$resetFillableFields, fetchTags, fetchTechnologies, loadProjectDetails, create} = store
 const {
   projectUrl,
   formErrors,
@@ -55,6 +55,8 @@ onMounted(() => {
   if (query.url && typeof query.url === 'string') {
     projectUrl.value = query.url;
   }
+
+  $resetFillableFields()
 
   loadProjectDetails()
 })

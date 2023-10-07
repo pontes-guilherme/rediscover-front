@@ -22,7 +22,7 @@ export const useProjectAddStore = defineStore("project-add", () => {
     const selectedTechnologies = ref<Technology[]>([]);
 
     const repository_id = ref<number>(0);
-    const project_status = ref<ProjectStatusEnum>();
+    const project_status = ref<ProjectStatusEnum>(ProjectStatusEnum.ABANDONED);
     const project_abandonment_reason = ref<string>('');
     const project_future = ref<string>('');
 
@@ -193,6 +193,15 @@ export const useProjectAddStore = defineStore("project-add", () => {
         });
     }
 
+    const $resetFillableFields = () => {
+        selectedTags.value = [];
+        selectedTechnologies.value = [];
+        project_status.value = ProjectStatusEnum.ABANDONED;
+        project_abandonment_reason.value = '';
+        project_future.value = '';
+        description.value = '';
+    }
+
     return {
         loading,
         projectUrl,
@@ -222,5 +231,6 @@ export const useProjectAddStore = defineStore("project-add", () => {
         fetchTechnologies,
         create,
         loadProjectDetails,
+        $resetFillableFields,
     };
 });
