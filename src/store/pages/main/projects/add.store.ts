@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import * as GithubService from "@/services/github.service";
 import * as ProjectService from "@/services/project.service";
 import * as TagService from "@/services/tag.service";
@@ -21,6 +21,7 @@ export const useProjectAddStore = defineStore("project-add", () => {
     const selectedTags = ref<Tag[]>([]);
     const selectedTechnologies = ref<Technology[]>([]);
 
+    const repository_id = ref<number>(0);
     const project_status = ref<ProjectStatusEnum>();
     const project_abandonment_reason = ref<string>('');
     const project_future = ref<string>('');
@@ -30,6 +31,61 @@ export const useProjectAddStore = defineStore("project-add", () => {
     const contributors = ref<Author[]>([]);
     const languages = ref<string[]>([]);
     const stars = ref<number>(0);
+
+    const formErrors = computed(() => {
+        const errors = [];
+
+        if (projectUrl.value.length == 0) {
+            errors.push('Project URL is required');
+        }
+
+        if (selectedTags.value.length == 0) {
+            errors.push('At least one tag is required');
+        }
+
+        if (selectedTechnologies.value.length == 0) {
+            errors.push('At least one technology is required');
+        }
+
+        if (project_status.value == undefined) {
+            errors.push('Project status is required');
+        }
+
+        if (project_abandonment_reason.value.length == 0) {
+            errors.push('Project abandonment reason is required');
+        }
+
+        if (project_future.value.length == 0) {
+            errors.push('Project future is required');
+        }
+
+        if (description.value.length == 0) {
+            errors.push('Project description is required');
+        }
+
+        if (last_commit.value == null) {
+            errors.push('Last commit is required');
+        }
+
+        if (contributors.value.length == 0) {
+            errors.push('At least one contributor is required');
+        }
+
+        if (languages.value.length == 0) {
+            errors.push('At least one language is required');
+        }
+
+        if (stars.value == 0) {
+            errors.push('At least one star is required');
+        }
+
+        return errors;
+    })
+
+    const formValid = computed(() => {
+        return formErrors.value.length == 0;
+    })
+
 
     const isTagSelected = (tag: Tag): boolean => {
         return selectedTags.value.includes(tag);
@@ -76,6 +132,7 @@ export const useProjectAddStore = defineStore("project-add", () => {
         loading.value = true;
 
         const data: CreateProjectRequest = {
+            repository_id: repository_id.value,
             name: projectUrl.value,
             description: projectUrl.value,
             repository_url: projectUrl.value,
@@ -105,6 +162,7 @@ export const useProjectAddStore = defineStore("project-add", () => {
             .then((data) => {
                 const repository = data.data.data;
 
+                repository_id.value = repository.id;
                 last_commit.value = repository.commits.filter(
                     (commit) => commit.author.type === 'User'
                 )?.[0] || null;
@@ -151,6 +209,9 @@ export const useProjectAddStore = defineStore("project-add", () => {
         languages,
         stars,
         description,
+
+        formErrors,
+        formValid,
 
         isUrlValid,
         isTagSelected,

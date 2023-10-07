@@ -12,7 +12,13 @@
           <UserWrittenDetails/>
 
           <div class="d-flex justify-center align-center">
-            <v-btn-primary class="btn-add mt-6">Save</v-btn-primary>
+            <v-btn-primary
+                class="btn-add mt-6"
+                :disabled="!formValid"
+                @click="() => create()"
+            >
+              Save
+            </v-btn-primary>
           </div>
         </div>
       </div>
@@ -31,9 +37,12 @@ import {storeToRefs} from "pinia";
 const route = useRoute()
 const store = useProjectAddStore();
 
-const {fetchTags, fetchTechnologies, loadProjectDetails} = store
-const {projectUrl} = storeToRefs(store)
-
+const {fetchTags, fetchTechnologies, loadProjectDetails, create} = store
+const {
+  projectUrl,
+  formErrors,
+  formValid,
+} = storeToRefs(store)
 
 onMounted(() => {
   fetchTags()

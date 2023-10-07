@@ -2,6 +2,7 @@ import {ProjectStatusEnum} from "@/enums/project-status.enum";
 import {Tag} from "@/models/Tag.model";
 
 export interface CreateProjectRequest {
+    repository_id: number
     name: string
     description: string
     repository_url: string
