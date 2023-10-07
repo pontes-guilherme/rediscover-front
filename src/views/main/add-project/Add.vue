@@ -53,22 +53,11 @@
       </div>
     </div>
   </div>
-
-  <v-snackbar
-      v-model="snackbar"
-      :timeout="timeout"
-      variant="tonal"
-      color="error"
-      location="bottom"
-      position="relative"
-      style="margin-bottom: 120px"
-  >
-    {{ validationMessage }}
-  </v-snackbar>
 </template>
 
 <script setup lang="ts">
 import {useProjectAddStore} from "@/store/pages/main/projects/add.store";
+import {useSnackbarStore} from "@/store/components/snackbar.store";
 import {storeToRefs} from "pinia";
 import {useRouter} from "vue-router";
 import {ref} from "vue";
@@ -76,20 +65,19 @@ import {ref} from "vue";
 const router = useRouter();
 const store = useProjectAddStore();
 
+const snackbarStore = useSnackbarStore();
+const {error} = snackbarStore
+
 const {isUrlValid} = store;
 const {loading, projectUrl} = storeToRefs(store)
 
 const formValid = ref(false)
 
-const snackbar = ref(false)
-const timeout = ref(2 * 1000)
-const validationMessage = ref('')
-
 const onSubmit = async () => {
   const valid = await validateUrl()
 
   if (!valid) {
-    showSnackbar('Invalid URL')
+    error('Invalid URL')
     return
   }
 
@@ -108,12 +96,6 @@ const validateUrl = async () => {
     return false
   }
 }
-
-const showSnackbar = (message: string) => {
-  validationMessage.value = message
-  snackbar.value = true
-}
-
 </script>
 
 <style scoped lang="scss">
