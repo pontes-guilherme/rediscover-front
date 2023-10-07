@@ -1,4 +1,6 @@
 import api from "@/services/client-axios";
+import {JsonResponse} from "@/models/Base/JsonResponse.interface";
+import {GithubRepositoryDetails} from "@/models/Github.model";
 
 export async function isGitHubRepoUrlValid(url: string) {
     const urlRegex = /^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+(\/)?$/;
@@ -33,5 +35,5 @@ export function getOwnerAndRepoFromUrl(url: string): { owner: string, repo: stri
 }
 
 export async function getRepositoryData(url: string) {
-    return api.get(`/github/repository?url=${url}`)
+    return api.get<JsonResponse<GithubRepositoryDetails>>(`/github/repository?url=${url}`)
 }

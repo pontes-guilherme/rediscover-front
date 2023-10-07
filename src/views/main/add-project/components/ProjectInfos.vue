@@ -17,19 +17,12 @@
           <div class="description__title text-h6">Description</div>
           <div class="stars text-h6 d-flex">
             <v-icon icon="mdi-star mr-1"/>
-            123
+            {{ stars }}
           </div>
         </div>
 
         <p class="font-weight-regular text-grey-darken-1 mt-2">
-          Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi.<br>
-          Aliquam in hendrerit urna. Pellentesque sit amet sapien. Lorem ipsum dolor sit amet consectetur
-          adipiscing<br>
-          elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien. Lorem ipsum dolor sit
-          amet consectetur<br> adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet
-          sapien. Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit
-          urna. Pellentesque sit
-          amet sapien.
+          {{ description }}
         </p>
       </div>
 
@@ -39,10 +32,19 @@
             Contributors
           </div>
           <div class="body mt-2">
-            <div class="images">
-              <img class="rounded-circle" src="https://placehold.co/50x50?text=1" alt="contributor"/>
-              <img class="rounded-circle ml-5" src="https://placehold.co/50x50?text=2" alt="contributor"/>
-              <img class="rounded-circle ml-5" src="https://placehold.co/50x50?text=3" alt="contributor"/>
+            <div class="images d-flex">
+              <div class="contributor"
+                   v-for="contributor in contributors"
+                   :key="contributor.id"
+              >
+                <a :href="`https://github.com/${contributor.login}`" target="_blank">
+                  <img
+                      class="rounded-circle contributor-avatar mr-3"
+                      alt="contributor"
+                      :src="contributor.avatar_url"
+                  />
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -52,8 +54,8 @@
             Last commit
           </div>
           <div class="body mt-2">
-            <div class="row-1 text-body-1">Closed issue #101</div>
-            <div class="row-2 text-body-2">2022-01-01 10:00</div>
+            <div class="row-1 text-body-1">{{ last_commit?.commit?.message || 'Sem commits' }}</div>
+            <div class="row-2 text-body-2">{{ formattedCommitDate }}</div>
           </div>
         </div>
       </div>
@@ -66,11 +68,19 @@ import {useProjectAddStore} from "@/store/pages/main/projects/add.store";
 import {storeToRefs} from "pinia";
 import {getOwnerAndRepoFromUrl} from "@/services/github.service";
 import {generateGradient, hashString} from "@/utils/colors.util";
-import {onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 
 const store = useProjectAddStore();
 
-const {loading, projectUrl} = storeToRefs(store)
+const {
+  loading,
+  projectUrl,
+  last_commit,
+  contributors,
+  languages,
+  description,
+  stars,
+} = storeToRefs(store)
 
 const projectImage = ref<HTMLDivElement | null>(null)
 const owner = ref('')
@@ -88,16 +98,30 @@ const changeGradient = () => {
   projectImage.value.style.background = getProjectGradient() || 'white'
 }
 
-watch(projectUrl, () => {
-  changeGradient()
-})
-
-onMounted(() => {
+const setOwnerAndRepo = () => {
   const {owner: o, repo: r} = getOwnerAndRepoFromUrl(projectUrl.value)
   owner.value = o
   repo.value = r
+}
 
+const setLooksForProject = () => {
+  setOwnerAndRepo()
   changeGradient()
+}
+
+const formattedCommitDate = computed(() => {
+  if (!last_commit.value) return ''
+
+  const date = new Date(last_commit.value.commit.committer.date)
+  return date.toLocaleDateString() + ' ' + date.toLocaleTimeString()
+})
+
+watch(projectUrl, () => {
+  setLooksForProject()
+})
+
+onMounted(() => {
+  setLooksForProject()
 })
 
 </script>
@@ -139,6 +163,11 @@ onMounted(() => {
         height: 200px;
       }
     }
+  }
+
+  .contributor-avatar {
+    width: 50px;
+    height: 50px;
   }
 }
 

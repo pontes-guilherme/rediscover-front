@@ -1,5 +1,6 @@
 import {defineStore} from "pinia";
 import * as GithubService from "@/services/github.service";
+import * as ProjectService from "@/services/project.service";
 import * as TagService from "@/services/tag.service";
 import * as TechnologyService from "@/services/technology.service";
 import {Tag} from "@/models/Tag.model";
@@ -7,6 +8,8 @@ import {Technology} from "@/models/Technology.model";
 
 import {ref} from "vue";
 import {ProjectStatusEnum} from "@/enums/project-status.enum";
+import {CreateProjectRequest} from "@/models/Project.model";
+import {Author, GithubRepositoryCommit, GithubRepositoryLangs} from "@/models/Github.model";
 
 export const useProjectAddStore = defineStore("project-add", () => {
     const loading = ref(false);
@@ -21,6 +24,12 @@ export const useProjectAddStore = defineStore("project-add", () => {
     const project_status = ref<ProjectStatusEnum>();
     const project_abandonment_reason = ref<string>('');
     const project_future = ref<string>('');
+
+    const description = ref<string>('');
+    const last_commit = ref<GithubRepositoryCommit>();
+    const contributors = ref<Author[]>([]);
+    const languages = ref<string[]>([]);
+    const stars = ref<number>(0);
 
     const isTagSelected = (tag: Tag): boolean => {
         return selectedTags.value.includes(tag);
@@ -66,19 +75,19 @@ export const useProjectAddStore = defineStore("project-add", () => {
     const create = async () => {
         loading.value = true;
 
-        const data = {
+        const data: CreateProjectRequest = {
             name: projectUrl.value,
             description: projectUrl.value,
             repository_url: projectUrl.value,
             abandonment_reason: project_abandonment_reason.value,
             project_future: project_future.value,
-            project_abandonment_status: project_status.value,
+            project_abandonment_status: project_status.value ?? ProjectStatusEnum.ABANDONED,
             tags: selectedTags.value,
             technologies: selectedTechnologies.value,
         }
 
         return new Promise((resolve) => {
-            GithubService.create(data)
+            ProjectService.create(data)
                 .then(() => {
                     resolve(true)
                 })
@@ -87,6 +96,32 @@ export const useProjectAddStore = defineStore("project-add", () => {
                 })
                 .finally(() => loading.value = false);
         });
+    }
+
+    const loadProjectDetails = async () => {
+        loading.value = true;
+
+        const url = projectUrl.value;
+
+        GithubService.getRepositoryData(url)
+            .then((data) => {
+                const repository = data.data.data;
+
+                last_commit.value = repository.commits.filter(
+                    (commit) => commit.author.type === 'User'
+                )?.[0] || null;
+                // 3 contributors max
+                contributors.value = repository.contributors.filter(
+                    (contributor) => contributor.type === 'User'
+                ).slice(0, 3)
+                languages.value = Object.keys(repository.languages);
+                stars.value = repository.stargazers_count;
+                description.value = repository.description;
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+            .finally(() => loading.value = false);
     }
 
     const fetchTags = async () => {
@@ -112,6 +147,12 @@ export const useProjectAddStore = defineStore("project-add", () => {
         project_abandonment_reason,
         project_future,
 
+        last_commit,
+        contributors,
+        languages,
+        stars,
+        description,
+
         isUrlValid,
         isTagSelected,
         isTechnologySelected,
@@ -120,5 +161,6 @@ export const useProjectAddStore = defineStore("project-add", () => {
         fetchTags,
         fetchTechnologies,
         create,
+        loadProjectDetails,
     };
 });

@@ -8,6 +8,6 @@ export interface CreateProjectRequest {
     abandonment_reason: string
     project_future: string
     project_abandonment_status: ProjectStatusEnum
-    tags: Tag
-    technologies: Tag
+    tags: Tag[]
+    technologies: Tag[]
 }

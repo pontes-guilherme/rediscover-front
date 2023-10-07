@@ -93,7 +93,7 @@ const onSubmit = async () => {
     return
   }
 
-  router.push('/projects/add/details')
+  router.push(`/projects/add/details?url=${projectUrl.value}`)
 }
 
 const validateUrl = async () => {

@@ -25,16 +25,30 @@ import ProjectInfos from "@/views/main/add-project/components/ProjectInfos.vue";
 import UserWrittenDetails from "@/views/main/add-project/components/UserWrittenDetails.vue";
 import {useProjectAddStore} from "@/store/pages/main/projects/add.store";
 import {onMounted} from "vue";
+import {useRoute} from "vue-router";
+import {storeToRefs} from "pinia";
 
+const route = useRoute()
 const store = useProjectAddStore();
 
-const {fetchTags, fetchTechnologies} = store
+const {fetchTags, fetchTechnologies, loadProjectDetails} = store
+const {projectUrl} = storeToRefs(store)
+
 
 onMounted(() => {
   fetchTags()
   fetchTechnologies()
 })
 
+onMounted(() => {
+  const {query} = route
+
+  if (query.url && typeof query.url === 'string') {
+    projectUrl.value = query.url;
+  }
+
+  loadProjectDetails()
+})
 </script>
 
 <style scoped lang="scss">
