@@ -138,7 +138,7 @@ const headers: DataTableHeader[] = [
 ];
 
 async function onDelete(id: number) {
-  const deletePromise = open("Deseja excluir esse registro?");
+  const deletePromise = open("Delete?", 'Are you sure you want to delete this item?');
 
   deletePromise.then(async ({confirm}) => {
     if (!confirm) {

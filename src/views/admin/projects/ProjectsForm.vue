@@ -20,9 +20,8 @@
                   v-model="repository_owner"
                   label="Repository Owner"
                   type="text"
-                  readonly="true"
-
                   aria-disabled="true"
+                  readonly
                 />
               </v-col>
 
@@ -31,9 +30,8 @@
                   v-model="repository_name"
                   label="Repository Name"
                   type="text"
-                  readonly="true"
-
                   aria-disabled="true"
+                  readonly
                 />
               </v-col>
 
@@ -42,9 +40,8 @@
                   v-model="repository_url"
                   label="Project URL"
                   type="text"
-                  readonly="true"
-
                   aria-disabled="true"
+                  readonly
                 />
               </v-col>
 
@@ -53,9 +50,8 @@
                   v-model="project_abandonment_status"
                   label="Project Status"
                   type="text"
-                  readonly="true"
-
                   aria-disabled="true"
+                  readonly
                 />
               </v-col>
 
@@ -64,9 +60,8 @@
                   v-model="abandonment_reason"
                   label="Project Abandonment Reason"
                   type="text"
-                  readonly="true"
-
                   aria-disabled="true"
+                  readonly
                 />
               </v-col>
 
@@ -75,9 +70,8 @@
                   v-model="project_future"
                   label="Project Future"
                   type="text"
-                  readonly="true"
-
                   aria-disabled="true"
+                  readonly
                 />
               </v-col>
 

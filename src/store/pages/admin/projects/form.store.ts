@@ -14,8 +14,8 @@ export const useProjectFormStore = defineStore("project-form", () => {
   const id = ref<number | null>(null);
   const repository_id = ref<number>(0);
   const repository_url = ref<string>('');
-  const repository_name = ref<number>(0);
-  const repository_owner = ref<number>(0);
+  const repository_name = ref<string>('');
+  const repository_owner = ref<string>('');
 
   const project_status = ref<ProjectStatusEnum>(ProjectStatusEnum.ABANDONED);
   const abandonment_reason = ref<string>('');
@@ -26,6 +26,8 @@ export const useProjectFormStore = defineStore("project-form", () => {
   const technologies = ref<Technology[]>([]);
 
   async function loadData(idParam: number) {
+    loading.value = true;
+
     ProjectAdminService.get(idParam)
       .then(({data}) => {
         id.value = data.data.id;
@@ -33,7 +35,6 @@ export const useProjectFormStore = defineStore("project-form", () => {
         repository_url.value = data.data.repository_url;
         repository_name.value = data.data.repository_name;
         repository_owner.value = data.data.repository_owner;
-        project_status.value = data.data.project_status;
         abandonment_reason.value = data.data.abandonment_reason;
         project_abandonment_status.value = data.data.project_abandonment_status;
         project_future.value = data.data.project_future;
@@ -41,8 +42,8 @@ export const useProjectFormStore = defineStore("project-form", () => {
         tags.value = data.data.tags;
         technologies.value = data.data.technologies;
       })
-      .catch(() => {
-        snackBar.error("Erro ao carregar dados!");
+      .catch((error) => {
+        console.log(error)
       })
       .finally(() => {
         loading.value = false;
