@@ -3,6 +3,7 @@ import {ref} from "vue";
 import * as AuthService from '@/services/admin-auth.service';
 import {ADMIN_AUTH_KEY, ADMIN_TOKEN_KEY, ADMIN_USER_KEY} from "@/constants/localstorage.constants";
 import {User} from "@/models/User.model";
+import api from "@/services/admin-axios";
 
 interface LoginResponse {
   user: User;
@@ -34,7 +35,7 @@ export const useAuthStore = defineStore("admin-auth", () => {
   function setToken(tokenString: any) {
     token.value = tokenString;
     localStorage.setItem(ADMIN_TOKEN_KEY, tokenString);
-
+    api.defaults.headers.common['Authorization'] = `Bearer ${tokenString}`;
   }
 
   function setAuthenticatedUser(data: LoginResponse) {
