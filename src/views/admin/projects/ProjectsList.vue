@@ -118,13 +118,13 @@ const headers: DataTableHeader[] = [
     key: "repository_id"
   },
   {
-    title: "Repo Name",
+    title: "Repository Name",
     align: "start",
     sortable: true,
     key: "repository_name"
   },
   {
-    title: "Repo Owner",
+    title: "Repository Owner",
     align: "start",
     sortable: true,
     key: "repository_owner"
