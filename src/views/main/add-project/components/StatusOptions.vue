@@ -2,21 +2,21 @@
   <div class="status-options mt-2 d-flex">
     <div
         :class="`chip chip--abandoned font-weight-black py-2 px-8 rounded-pill ${selectedStatus === 'abandoned' ? 'selected' : ''}`"
-        @click="changeStatus('abandoned')"
+        @click="changeStatus(ProjectStatusEnum.ABANDONED)"
     >
       Abandoned
     </div>
 
     <div
         :class="`chip chip--inactive font-weight-black py-2 px-8 rounded-pill ml-3 ${selectedStatus === 'inactive' ? 'selected' : ''}`"
-        @click="changeStatus('inactive')"
+        @click="changeStatus(ProjectStatusEnum.INACTIVE)"
     >
       Inactive
     </div>
 
     <div
         :class="`chip chip--deprecated font-weight-black py-2 px-8 rounded-pill ml-3 ${selectedStatus === 'deprecated' ? 'selected' : ''}`"
-        @click="changeStatus('deprecated')"
+        @click="changeStatus(ProjectStatusEnum.DEPRECATED)"
     >
       Deprecated
     </div>
@@ -25,12 +25,17 @@
 
 <script setup lang="ts">
 import {ref} from "vue";
+import {ProjectStatusEnum} from "@/enums/project-status.enum";
+
+const emit = defineEmits(['changeStatus'])
 
 const selectedStatus = ref('');
 
 const changeStatus = (status: string) => {
   selectedStatus.value = status;
+  emit('changeStatus', status)
 }
+
 </script>
 
 <style scoped lang="scss">

@@ -22,7 +22,7 @@ export const useAppDrawer = defineStore("drawer", () => {
       title: "Projects",
       value: "projects",
       icon: "mdi-folder",
-      route: "/admin/users"
+      route: "/admin/projects"
     },
     {
       title: "Comments",

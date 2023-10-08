@@ -17,6 +17,12 @@ const router = createRouter({
     routes,
 })
 
+router.beforeEach(async (to, from) => {
+    if (to.meta.oneTimePage && !from.name) {
+        return {name: 'main.home'}
+    }
+})
+
 router.beforeResolve(async to => {
     const adminAuthStore = useAuthStore()
 

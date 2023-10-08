@@ -2,11 +2,11 @@
   <v-app-bar class="px-3">
 
     <RouterLink
-      class="nav-item text-decoration-none text-primary text-center flex-1"
-      to="/"
+        class="nav-item text-decoration-none text-primary text-center flex-1"
+        to="/"
     >
       <div class="logo ml-10 text-center">
-        <img src="/src/assets/logo.svg" alt="logo" class="w-100" />
+        <img src="/src/assets/logo.svg" alt="logo" class="w-100"/>
       </div>
     </RouterLink>
 
@@ -14,10 +14,10 @@
 
     <div class="nav-items flex-grow-1" v-if="!hideMenuAndShowDrawer">
       <RouterLink
-        class="nav-item text-decoration-none text-primary"
-        :to="link.path"
-        v-for="link in links"
-        :key="link.path"
+          class="nav-item text-decoration-none text-primary"
+          :to="link.path"
+          v-for="link in links"
+          :key="link.path"
       >
         <v-btn variant="text">{{ link.title }}</v-btn>
       </RouterLink>
@@ -26,13 +26,25 @@
     <v-spacer></v-spacer>
 
     <div class="avatar flex-1">
-      <v-menu location="bottom">
+      <v-btn
+          color="black"
+          variant="flat"
+          class="align-center hidden-sm-and-down"
+          @click="getUrlAndRedirect"
+          v-if="!isAuthenticated"
+      >
+        <v-icon icon="mdi-github" class="mr-1"/>
+        Sign in
+      </v-btn>
+
+      <v-menu location="bottom" v-if="isAuthenticated">
         <template v-slot:activator="{ props }">
           <v-avatar
-            class="hidden-sm-and-down mr-10"
-            color="grey-darken-1"
-            size="32"
-            v-bind="props"
+              class="hidden-sm-and-down mr-10"
+              color="grey-darken-1"
+              size="32"
+              v-bind="props"
+              :image="user?.github_profile_picture || ''"
           ></v-avatar>
         </template>
 
@@ -40,10 +52,10 @@
           <v-list-item>
             <v-list-item-title class="d-flex align-center">
               <v-btn
-                color="primary"
-                variant="text"
-                class="w-100"
-                @click="router.push('/profile/projects')"
+                  color="primary"
+                  variant="text"
+                  class="w-100"
+                  @click="router.push('/profile/projects')"
               >
                 <span class="ml-2">My Projects</span>
               </v-btn>
@@ -52,10 +64,10 @@
           <v-list-item>
             <v-list-item-title class="d-flex align-center">
               <v-btn
-                color="primary"
-                variant="text"
-                class="w-100"
-                @click="router.push('/profile/comments')"
+                  color="primary"
+                  variant="text"
+                  class="w-100"
+                  @click="router.push('/profile/comments')"
               >
                 <span class="ml-2">My Comments</span>
               </v-btn>
@@ -65,10 +77,10 @@
           <v-list-item>
             <v-list-item-title class="d-flex align-center">
               <v-btn
-                color="primary"
-                variant="text"
-                class="w-100"
-                @click="logout"
+                  color="primary"
+                  variant="text"
+                  class="w-100"
+                  @click="logout"
               >
                 <span class="ml-2">Log Out</span>
               </v-btn>
@@ -78,40 +90,87 @@
       </v-menu>
 
       <v-app-bar-nav-icon
-        class="text-primary"
-        variant="text"
-        v-if="hideMenuAndShowDrawer"
-        @click.stop="drawer = !drawer"
+          class="text-primary"
+          variant="text"
+          v-if="hideMenuAndShowDrawer && !isAuthenticated"
+          @click.stop="drawer = !drawer"
       ></v-app-bar-nav-icon>
+
+      <v-avatar
+          color="grey-darken-1 mr-10 "
+          size="32"
+          :image="user?.github_profile_picture || ''"
+          v-if="hideMenuAndShowDrawer && isAuthenticated"
+          @click.stop="drawer = !drawer"
+      ></v-avatar>
     </div>
   </v-app-bar>
 
   <v-navigation-drawer
-    v-model="drawer"
-    location="right"
-    temporary
+      v-model="drawer"
+      location="right"
+      temporary
   >
     <v-list>
-      <v-list-item v-for="link in [...links, ...loggedLinks]" :key="link.path">
+      <v-list-item v-for="link in links" :key="link.path">
         <RouterLink
-          class="nav-item text-decoration-none text-primary w-100"
-          :to="link.path"
+            class="nav-item text-decoration-none text-primary w-100"
+            :to="link.path"
         >
           <v-btn class="w-100" variant="text">{{ link.title }}</v-btn>
         </RouterLink>
       </v-list-item>
     </v-list>
+
+    <v-list v-if="isAuthenticated">
+      <v-list-item v-for="link in loggedLinks" :key="link.path">
+        <RouterLink
+            class="nav-item text-decoration-none text-primary w-100"
+            :to="link.path"
+        >
+          <v-btn class="w-100" variant="text">{{ link.title }}</v-btn>
+        </RouterLink>
+      </v-list-item>
+    </v-list>
+
+    <template v-slot:append>
+      <div class="pa-2 text-center">
+        <v-btn class="w-100" variant="text" v-if="isAuthenticated" @click="logout">Logout</v-btn>
+
+        <v-btn
+            color="black"
+            variant="flat"
+            class="align-center"
+            @click="getUrlAndRedirect"
+            v-if="!isAuthenticated"
+        >
+          <v-icon icon="mdi-github" class="mr-1"/>
+          Sign in
+        </v-btn>
+      </div>
+    </template>
   </v-navigation-drawer>
 </template>
 
 <script setup lang="ts">
 
-import {useRouter} from "vue-router";
-import {computed, ref} from "vue";
+import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import {useDisplay} from "vuetify";
+import {useClientAuthStore} from "@/store/pages/main/auth/auth.store";
+import {useRouter} from "vue-router";
+import {storeToRefs} from "pinia";
 
 const router = useRouter()
+
 const {smAndDown} = useDisplay()
+const store = useClientAuthStore()
+
+const {getAuthUrl, fetchProfile, setToken} = store
+const {user} = storeToRefs(store)
+
+const isAuthenticated = computed(() => {
+  return !!store.isAuthenticated
+})
 
 const drawer = ref(false)
 
@@ -142,10 +201,43 @@ const loggedLinks = [
 ]
 
 const logout = () => {
+  store.logout()
 }
 
 const hideMenuAndShowDrawer = computed(() => {
   return !!smAndDown.value
+})
+
+const getUrlAndRedirect = async () => {
+  getAuthUrl().then(url => {
+    window.open(url, '_blank', 'toolbar=0,location=0,menubar=0,width=600,height=600');
+  })
+}
+
+async function onMessage(e: any) {
+  // if (e.origin !== window.origin || !e.data.token) {
+  //   return
+  // }
+
+  if (!e.data.token) {
+    return
+  }
+
+  // console.log('onMessage', e)
+
+  const token = e.data.token;
+
+  setToken(token)
+
+  fetchProfile()
+}
+
+onMounted(() => {
+  window.addEventListener('message', onMessage, false)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('message', onMessage)
 })
 </script>
 

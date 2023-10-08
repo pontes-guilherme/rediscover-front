@@ -9,7 +9,7 @@ interface LoginResponse {
   token: string;
 }
 
-export const useAuthStore = defineStore("auth", () => {
+export const useAuthStore = defineStore("admin-auth", () => {
   const isAuthenticated = ref(localStorage.getItem(ADMIN_AUTH_KEY) === 'true' || false);
   const user = ref<User>(
     JSON.parse(localStorage.getItem(ADMIN_USER_KEY) || '{}')
