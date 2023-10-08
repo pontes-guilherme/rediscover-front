@@ -15,7 +15,7 @@
               <v-text-field
                   class="w-100"
                   v-model="projectUrl"
-                  label="URL do repositório"
+                  label="Project URL"
                   :rules="[
                 (v) => {
                   if (!v) {

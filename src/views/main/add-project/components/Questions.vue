@@ -1,5 +1,5 @@
 <template>
-  <div class="reason mt-10">
+  <div class="reason mt-16">
     <div class="title text-body-1">
       Why did you abandoned/inactivated the project?
     </div>
