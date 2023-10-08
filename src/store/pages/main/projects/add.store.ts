@@ -59,26 +59,6 @@ export const useProjectAddStore = defineStore("project-add", () => {
                 errors.push('Project future is required');
             }
 
-            if (description.value.length == 0) {
-                errors.push('Project description is required');
-            }
-
-            if (last_commit.value == null) {
-                errors.push('Last commit is required');
-            }
-
-            if (contributors.value.length == 0) {
-                errors.push('At least one contributor is required');
-            }
-
-            if (languages.value.length == 0) {
-                errors.push('At least one language is required');
-            }
-
-            if (stars.value == 0) {
-                errors.push('At least one star is required');
-            }
-
             return errors;
         })
 
