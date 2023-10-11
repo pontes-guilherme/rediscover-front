@@ -4,7 +4,6 @@ import {Tag} from "@/models/Tag.model";
 export interface Project {
   id: number
   repository_id: number
-  name: string
   description: string
   repository_url: string
   abandonment_reason: string
@@ -18,7 +17,6 @@ export interface Project {
 
 export interface CreateProjectRequest {
   repository_id: number
-  name: string
   description: string
   repository_url: string
   abandonment_reason: string
