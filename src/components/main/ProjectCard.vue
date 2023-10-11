@@ -74,7 +74,7 @@ const tagsToShow: ComputedRef<Tag[]> = computed(() => {
 });
 
 const goToProject = () => {
-  router.push('/projects/1')
+  router.push(`/projects/${project?.id || 999}`)
 }
 
 const getProjectGradient = (): string => {

@@ -17,7 +17,7 @@ export const useProjectDetailsStore = defineStore("project-details", () => {
         const repository_url = ref<string>('');
         const repository_owner = ref<string>('');
         const repository_name = ref<string>('');
-        const project_status = ref<ProjectStatusEnum>(ProjectStatusEnum.ABANDONED);
+        const project_abandonment_status = ref<ProjectStatusEnum>(ProjectStatusEnum.ABANDONED);
         const project_abandonment_reason = ref<string>('');
         const project_future = ref<string>('');
 
@@ -43,6 +43,7 @@ export const useProjectDetailsStore = defineStore("project-details", () => {
                         project_future.value = repository.project_future;
                         selectedTags.value = repository.tags;
                         selectedTechnologies.value = repository.technologies;
+                        project_abandonment_status.value = repository.project_abandonment_status;
 
                         resolve(data)
                     })
@@ -73,17 +74,24 @@ export const useProjectDetailsStore = defineStore("project-details", () => {
         }
 
         const $resetFillableFields = () => {
-            selectedTags.value = [];
-            selectedTechnologies.value = [];
-            project_status.value = ProjectStatusEnum.ABANDONED;
+            id.value = 0;
+            repository_id.value = 0;
+            repository_url.value = '';
+            repository_owner.value = '';
+            repository_name.value = '';
+            project_abandonment_status.value = ProjectStatusEnum.ABANDONED;
             project_abandonment_reason.value = '';
             project_future.value = '';
             description.value = '';
+
+            selectedTags.value = [];
+            selectedTechnologies.value = [];
         }
 
         return {
             loading,
 
+            id,
             allProjects,
             repository_id,
             repository_url,
@@ -91,7 +99,7 @@ export const useProjectDetailsStore = defineStore("project-details", () => {
             repository_name,
             selectedTags,
             selectedTechnologies,
-            project_status,
+            project_abandonment_status,
             project_abandonment_reason,
             project_future,
             description,
