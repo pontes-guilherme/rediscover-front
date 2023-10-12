@@ -7,15 +7,15 @@
         </div>
 
         <div class="content mt-10 w-100">
-          <ProjectInfos/>
+          <ProjectInfos :loading="loading"/>
 
-          <UserWrittenDetails/>
+          <UserWrittenDetails :loading="loading" />
 
           <div class="d-flex justify-center align-center">
             <v-btn-primary
                 class="btn-add mt-6"
                 :disabled="!formValid"
-                :loading="loading"
+                :loading="createRequestLoading"
                 @click="onSubmit"
             >
               Save
@@ -47,6 +47,7 @@ const {
   projectUrl,
   formErrors,
   formValid,
+  createRequestLoading,
   loading,
 } = storeToRefs(store)
 

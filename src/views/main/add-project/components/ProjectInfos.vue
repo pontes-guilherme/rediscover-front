@@ -1,65 +1,89 @@
 <template>
   <div class="project">
-    <div class="project__image d-flex justify-center align-center position-relative" ref="projectImage">
-      <div class="backdrop"></div>
-      <div class="project__name d-flex justify-center align-center">
-        {{ owner }}/{{ repo }}
-      </div>
-    </div>
+    <template v-if="loading">
+      <v-skeleton-loader type="card-avatar"></v-skeleton-loader>
 
-    <div class="project__info w-100 mt-5">
-      <div class="title-row w-100 d-flex justify-space-between flex-wrap">
-        <!--        <div class="title font-weight-bold text-h5 mr-5">Project Name/Application</div>-->
-      </div>
+      <v-row>
+        <v-col col="6">
+          <v-skeleton-loader type="paragraph"></v-skeleton-loader>
+        </v-col>
+        <v-col col="6">
+          <v-skeleton-loader type="paragraph"></v-skeleton-loader>
+        </v-col>
+      </v-row>
 
-      <div class="description mt-10">
-        <div class="d-flex justify-space-between align-center">
-          <div class="description__title text-h6">Description</div>
-          <div class="stars text-h6 d-flex">
-            <v-icon icon="mdi-star mr-1"/>
-            {{ formattedStars }}
-          </div>
+      <v-row class="mt-6 mb-6">
+        <div class="d-flex py-2 pl-2">
+          <v-skeleton-loader type="avatar"></v-skeleton-loader>
+          <v-skeleton-loader type="avatar"></v-skeleton-loader>
+          <v-skeleton-loader type="avatar"></v-skeleton-loader>
+        </div>
+      </v-row>
+    </template>
+
+    <template v-if="!loading">
+      <div class="project__image d-flex justify-center align-center position-relative" ref="projectImage">
+        <div class="backdrop"></div>
+        <div class="project__name d-flex justify-center align-center">
+          {{ owner }}/{{ repo }}
         </div>
 
-        <p class="font-weight-regular text-grey-darken-1 mt-2">
-          {{ description }}
-        </p>
       </div>
 
-      <div class="contributions d-block d-sm-flex justify-space-between text-h6 mt-10 flex-wrap">
-        <div class="contributors">
-          <div class="title">
-            Contributors
+      <div class="project__info w-100 mt-5">
+        <div class="title-row w-100 d-flex justify-space-between flex-wrap">
+          <!--        <div class="title font-weight-bold text-h5 mr-5">Project Name/Application</div>-->
+        </div>
+
+        <div class="description mt-10">
+          <div class="d-flex justify-space-between align-center">
+            <div class="description__title text-h6">Description</div>
+            <div class="stars text-h6 d-flex">
+              <v-icon icon="mdi-star mr-1"/>
+              {{ formattedStars }}
+            </div>
           </div>
-          <div class="body mt-2">
-            <div class="images d-flex">
-              <div class="contributor"
-                   v-for="contributor in contributors"
-                   :key="contributor.id"
-              >
-                <a :href="`https://github.com/${contributor.login}`" target="_blank">
-                  <img
-                    class="rounded-circle contributor-avatar mr-3"
-                    alt="contributor"
-                    :src="contributor.avatar_url"
-                  />
-                </a>
+
+          <p class="font-weight-regular text-grey-darken-1 mt-2">
+            {{ description }}
+          </p>
+        </div>
+
+        <div class="contributions d-block d-sm-flex justify-space-between text-h6 mt-10 flex-wrap">
+          <div class="contributors">
+            <div class="title">
+              Contributors
+            </div>
+            <div class="body mt-2">
+              <div class="images d-flex">
+                <div class="contributor"
+                     v-for="contributor in contributors"
+                     :key="contributor.id"
+                >
+                  <a :href="`https://github.com/${contributor.login}`" target="_blank">
+                    <img
+                        class="rounded-circle contributor-avatar mr-3"
+                        alt="contributor"
+                        :src="contributor.avatar_url"
+                    />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="last-commit mt-5 mt-sm-0">
-          <div class="title">
-            Last commit
-          </div>
-          <div class="body mt-2">
-            <div class="row-1 text-body-1">{{ last_commit?.commit?.message || 'Sem commits' }}</div>
-            <div class="row-2 text-body-2">{{ formattedCommitDate }}</div>
+          <div class="last-commit mt-5 mt-sm-0">
+            <div class="title">
+              Last commit
+            </div>
+            <div class="body mt-2">
+              <div class="row-1 text-body-1">{{ last_commit?.commit?.message || 'Sem commits' }}</div>
+              <div class="row-2 text-body-2">{{ formattedCommitDate }}</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -93,6 +117,7 @@ const getProjectGradient = (): string => {
 }
 
 const changeGradient = () => {
+
   if (!projectImage.value) return
 
   projectImage.value.style.background = getProjectGradient() || 'white'
@@ -122,6 +147,12 @@ const formattedStars = computed(() => {
 })
 
 watch(projectUrl, () => {
+  setLooksForProject()
+})
+
+watch(projectImage, () => {
+  if (!projectImage.value) return
+
   setLooksForProject()
 })
 
