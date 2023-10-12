@@ -113,8 +113,7 @@ export const useProjectAddStore = defineStore("project-add", () => {
 
             const data: CreateProjectRequest = {
                 repository_id: repository_id.value,
-                name: projectUrl.value,
-                description: projectUrl.value,
+                description: description.value,
                 repository_url: projectUrl.value,
                 abandonment_reason: project_abandonment_reason.value,
                 project_future: project_future.value,

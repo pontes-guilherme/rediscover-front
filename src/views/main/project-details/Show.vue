@@ -7,15 +7,21 @@
 
           <div class="d-flex align-end">
             <v-btn
-              variant="text"
-              icon="mdi-star"
-              :color="`${favorite ? '#E1C109' : 'grey-darken-1'}`"
-              @click="toggleFavorite()"
+                variant="text"
+                icon="mdi-star"
+                :color="`${favorite ? '#E1C109' : 'grey-darken-1'}`"
+                @click="toggleFavorite()"
             ></v-btn>
           </div>
         </div>
 
-        <ProjectInfos/>
+        <ProjectInfos
+            :repository_owner="repository_owner"
+            :repository_name="repository_name"
+            :description="description"
+            :tags="selectedTags"
+            :technologies="selectedTechnologies"
+        />
       </section>
 
       <section class="project-status">
@@ -23,7 +29,11 @@
           <h1>Project Status</h1>
         </div>
 
-        <ProjectStatus/>
+        <ProjectStatus
+            :abandonment_reason="project_abandonment_reason"
+            :project_future="project_future"
+            :project_abandonment_status="project_abandonment_status"
+        />
       </section>
 
       <section class="project-infos">
@@ -60,24 +70,24 @@
       </div>
       <div class="buttons d-flex justify-space-between mt-10">
         <v-btn
-          color="primary"
-          class="mr-5"
+            color="primary"
+            class="mr-5"
         >
           <v-icon>mdi-check</v-icon>
           <span class="ml-2">I am the maintainer</span>
         </v-btn>
 
         <v-btn
-          color="primary"
-          class="mr-5"
+            color="primary"
+            class="mr-5"
         >
           <v-icon>mdi-star</v-icon>
           <span class="ml-2">I want to collaborate</span>
         </v-btn>
 
         <v-btn
-          color="primary"
-          class="mr-5"
+            color="primary"
+            class="mr-5"
         >
           <v-icon>mdi-share-variant</v-icon>
           <span class="ml-2">I want to share</span>
@@ -90,18 +100,53 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import ProjectInfos from "./components/ProjectInfos.vue";
 import ProjectRatings from "@/views/main/project-details/components/ProjectRatings.vue";
 import ProjectStatus from "@/views/main/project-details/components/ProjectStatus.vue";
 import ProjectComments from "@/views/main/project-details/components/ProjectComments.vue";
 import ProjectCard from "@/components/main/ProjectCard.vue";
+import {useProjectDetailsStore} from "@/store/pages/main/projects/details.store";
+import {storeToRefs} from "pinia";
+import {useRoute} from "vue-router";
+import {generateGradient, hashString} from "@/utils/colors.util";
+
+const route = useRoute()
+
+const projectStore = useProjectDetailsStore()
+const {
+  loading,
+  id,
+  repository_id,
+  repository_url,
+  repository_owner,
+  repository_name,
+  project_abandonment_status,
+  project_abandonment_reason,
+  project_future,
+  description,
+  selectedTags,
+  selectedTechnologies,
+} = storeToRefs(projectStore)
+
+const {loadProjectDetails, $resetFillableFields} = projectStore
+
 
 const favorite = ref(false);
 
 const toggleFavorite = () => {
   favorite.value = !favorite.value;
 }
+
+onMounted(() => {
+  $resetFillableFields()
+
+  if (typeof route.params.id === 'string') {
+    id.value = parseInt(route.params.id)
+  }
+
+  loadProjectDetails()
+})
 </script>
 
 
